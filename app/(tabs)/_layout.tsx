@@ -8,15 +8,19 @@ const TabLayout = () => {
       <Tabs
         screenOptions={{
             tabBarActiveTintColor: '#fff',
-            tabBarInactiveTintColor: "#36454F",
+            tabBarInactiveTintColor: "#5d656bff",
             tabBarStyle: {
-                backgroundColor: "#f4511e",
+                backgroundColor: "#0A3A40",
+                borderColor: "#36454f"
             },
             tabBarLabelStyle:{
                 fontSize: 12
             },
             headerStyle: {
-                backgroundColor: '#f4511e',
+                backgroundColor: '#0A3A40',
+                shadowOpacity: 0,
+                elevation: 0,
+                height: 90
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -26,7 +30,7 @@ const TabLayout = () => {
         }}      
       >
         <Tabs.Screen 
-            name="homePage" 
+            name="shoppingLists" 
             options={{ 
                 title:"Shopping Lists",
                 tabBarIcon: ({ color, focused }) => (
@@ -39,7 +43,7 @@ const TabLayout = () => {
             }} 
         />
         <Tabs.Screen 
-            name="listPage" 
+            name="(list)" 
             options={{ 
                 title:"Shopping List",
                 tabBarIcon: ({ color, focused }) => (
