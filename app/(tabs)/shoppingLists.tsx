@@ -55,8 +55,8 @@ const styles = StyleSheet.create({
     },
     btnContainer:{
       width: "100%",
-      alignItems: "flex-start",
-      paddingHorizontal: 12,
+      alignItems: "flex-end",
+      paddingHorizontal: 2,
       marginBottom: 18
     },   
 })

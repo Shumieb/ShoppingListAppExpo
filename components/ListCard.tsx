@@ -1,12 +1,12 @@
 import { useRouter } from 'expo-router';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-interface ItemProps {
+interface CardProps {
     title: string,
     id: string
 }
 
-const ListCard = ({title, id}: ItemProps) => {
+const ListCard = ({title, id}: CardProps) => {
 
     const router = useRouter();
 

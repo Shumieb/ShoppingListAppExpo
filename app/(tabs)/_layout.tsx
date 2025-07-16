@@ -45,6 +45,7 @@ const TabLayout = () => {
         <Tabs.Screen 
             name="(list)" 
             options={{ 
+                headerShown: false,
                 title:"Shopping List",
                 tabBarIcon: ({ color, focused }) => (
                     <FontAwesome5 

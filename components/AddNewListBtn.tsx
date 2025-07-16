@@ -5,7 +5,6 @@ interface Props{
     addToList: () => void,
 }
 
-
 const AddNewListBtn = ({addToList}: Props) => {   
   return (
     <TouchableOpacity 
@@ -32,7 +31,7 @@ const styles = StyleSheet.create({
       paddingVertical: 6,
       borderRadius: 4,
       fontWeight: "bold",
-      width: "45%",
+      width: "40%",
       borderColor: "#f4511e",
       borderWidth: 2
     },
