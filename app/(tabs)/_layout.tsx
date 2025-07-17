@@ -57,7 +57,7 @@ const TabLayout = () => {
             }} 
         />
         <Tabs.Screen 
-            name="addPage" 
+            name="(add)" 
             options={{ 
                 title: "Add",
                 tabBarIcon: ({ color, focused }) => (

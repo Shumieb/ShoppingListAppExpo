@@ -1,20 +1,14 @@
-import AddNewListBtn from '@/components/AddNewListBtn';
-import ListCard from '@/components/ListCard';
-import { useState } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { FlatList, StyleSheet, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+
+import AddNewListBtn from '@/components/AddNewListBtn'
+import ListCard from '@/components/ListCard'
+
+import useShoppingListStore from '@/stores/shoppingListsStore'
 
 const ShoppingLists = () => {
-  const [shoppingLists, setShoppingLists] = useState([
-    { id:"1", name: "Shopping List 1"},
-    { id:"2", name: "Shopping List 2"},
-    { id:"3", name: "Shopping List 3"},
-    { id:"4", name: "Shopping List 4"}
-  ])
 
-  const addToList = () =>{
-        console.log("add to list")
-  }
+  const shoppingLists = useShoppingListStore((state) => state.shoppingLists)
     
   return (
     <SafeAreaView style={styles.container} edges={["left", "right"]}>          
@@ -26,7 +20,7 @@ const ShoppingLists = () => {
         numColumns={2}
         ListHeaderComponent={
           <View style={styles.btnContainer}>
-            <AddNewListBtn addToList={addToList}/>
+            <AddNewListBtn/>
           </View>
         }
       />

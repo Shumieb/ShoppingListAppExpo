@@ -1,11 +1,15 @@
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { useRouter } from 'expo-router';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-interface Props{
-    addToList: () => void,
-}
+const AddNewItemBtn = () => {
 
-const AddNewItemBtn = ({addToList}: Props) => {
+    const router = useRouter();
+
+    const addToList = () =>{
+        router.replace("/add/item")
+    }
+
   return (
     <TouchableOpacity 
         style={styles.btn}
@@ -41,5 +45,4 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         paddingLeft: 8,
     }
-
 })

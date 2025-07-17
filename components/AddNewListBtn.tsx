@@ -1,11 +1,16 @@
-import AntDesign from '@expo/vector-icons/AntDesign';
+import { useRouter } from 'expo-router';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-interface Props{
-    addToList: () => void,
-}
+import AntDesign from '@expo/vector-icons/AntDesign';
 
-const AddNewListBtn = ({addToList}: Props) => {   
+const AddNewListBtn = () => {   
+
+  const router = useRouter();
+
+  const addToList = () =>{
+    router.replace("/add/list")
+  }
+
   return (
     <TouchableOpacity 
         style={styles.btn}

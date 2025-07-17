@@ -1,20 +1,20 @@
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { Link } from "expo-router";
 import { StatusBar } from 'expo-status-bar';
-import { useState } from "react";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Index() {
-  const [userName, setUserName] = useState("");
-
   return (
     <SafeAreaView
       style={styles.container}
     >
       <StatusBar style="light"/>
-      <Text style={[styles.title, styles.titleMedium]}>Welcome to the</Text>
-      <Text style={[styles.title, styles.titleLarge]}>Shopping List</Text>
-      <Text style={[styles.title, styles.titleLarge]}>App</Text>
+      <FontAwesome5 name="clipboard-list" size={28} color="white" />
+      <View style={styles.textContainer}>
+        <Text style={styles.title}>Shopping List</Text>
+        <Text style={styles.title}>App</Text>
+      </View>
       <Link href="/shoppingLists" style={styles.link}>Shopping Lists</Link>       
     </SafeAreaView>
   );
@@ -30,13 +30,9 @@ const styles = StyleSheet.create({
   title:{
     padding: 2,
     color: "#fff",
-    fontWeight: "bold"
-  },
-  titleMedium: {
-    fontSize: 18,
-  },
-  titleLarge:{
+    fontWeight: "bold",
     fontSize: 22,
+    textAlign: "center"
   },
   link: {
     fontSize: 18,
@@ -44,10 +40,15 @@ const styles = StyleSheet.create({
     color: "#fff",
     paddingHorizontal: 2,
     paddingVertical: 8,
-    marginTop: 20,
+    marginTop: 25,
     borderRadius: 4,
     fontWeight: "bold",
     width: "60%",
     textAlign: "center"
+  },
+  textContainer: {
+    padding: 4,
+    textAlign: "center",
+    marginTop: 15
   }
 })
