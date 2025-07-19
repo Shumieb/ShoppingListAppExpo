@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
       borderWidth: 1, 
       borderColor: '#bdc3c7', 
       overflow: 'hidden',
-      marginTop: 10,
+      marginTop: 20,
     },
     picker:{
       width: "100%",
@@ -59,8 +59,7 @@ const styles = StyleSheet.create({
       fontSize: 18,
     },
     pickerItem: {
-      width: "80%",
-      backgroundColor: "#E9DCC9",
+      width: "70%",
       color: "#4f676bff", 
       borderRadius: 4,
       fontSize: 18,

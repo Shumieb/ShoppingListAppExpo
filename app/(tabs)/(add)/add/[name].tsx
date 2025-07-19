@@ -1,11 +1,12 @@
 import FormSubmitButton from '@/components/FormSubmitButton';
+import FormTextInput from '@/components/FormTextInput';
 import PickerComponent from '@/components/PickerComponent';
 import ToggleFormButton from '@/components/ToggleFormButton';
 import useShoppingListStore from '@/stores/shoppingListsStore';
 
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const AddPage = () => {
@@ -46,40 +47,47 @@ const AddPage = () => {
 
   return (
     <SafeAreaView style={styles.container}> 
-      <View style={styles.btnContainer}>
-        <ToggleFormButton 
-          selectedBtn={selectedBtn}
-          addToList={addToList}
-          buttonValue="list" 
-          buttonText="New List"
-        />
-        <ToggleFormButton 
-          selectedBtn={selectedBtn}
-          addToList={addToList}
-          buttonValue="item" 
-          buttonText="New Item"
-        />
-      </View> 
-      <View style={styles.form}>
-        <Text style={styles.label}>{formTitle} </Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={text => setNewName(text)}
-          value={newName}
-          placeholder={formPlaceHolder}
-        />
-        {
-          formType == "item" ? 
-          (
-            <PickerComponent 
-              selected={selectedList} 
-              setSelected={setSelectedList} 
-              listToPickFrom={listToPickFrom}
-            />
-          ): null
-        }
-        <FormSubmitButton formBtnText={formBtnText} />
-      </View>     
+      <ScrollView 
+        keyboardDismissMode='on-drag' 
+        contentContainerStyle={{flexGrow: 1}}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        keyboardShouldPersistTaps="never"
+      >
+        <View style={styles.btnContainer}>
+          <ToggleFormButton 
+            selectedBtn={selectedBtn}
+            addToList={addToList}
+            buttonValue="list" 
+            buttonText="New List"
+          />
+          <ToggleFormButton 
+            selectedBtn={selectedBtn}
+            addToList={addToList}
+            buttonValue="item" 
+            buttonText="New Item"
+          />
+        </View> 
+        <View style={styles.form}>
+          <Text style={styles.label}>{formTitle} </Text>
+          <FormTextInput 
+            onChangeHandler={setNewName}
+            inputValue={newName}
+            formPlaceHolder={formPlaceHolder}
+          />
+          {
+            formType == "item" ? 
+            (
+              <PickerComponent 
+                selected={selectedList} 
+                setSelected={setSelectedList} 
+                listToPickFrom={listToPickFrom}
+              />
+            ): null
+          }
+          <FormSubmitButton formBtnText={formBtnText} />
+        </View>   
+      </ScrollView>  
     </SafeAreaView>
   )
 }
@@ -91,8 +99,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "flex-start",
-    paddingRight: 6,
     paddingHorizontal: 8,
+    paddingTop: 20,
     backgroundColor: "#0A3A40",
   },
   btnContainer:{
@@ -102,31 +110,19 @@ const styles = StyleSheet.create({
     width: "100%",
     marginVertical: 40,
   },
-    form:{
-      width: "100%",
-      justifyContent: "flex-start",
-      alignItems: "center",
-      paddingVertical: 15,
-      backgroundColor: "#c04621ff",
-      borderRadius: 4,
-    },
-    label:{
-      fontSize: 22,
-      color: "#0A3A40",
-      fontWeight: "bold",
-      paddingBottom: 20,
-    },
-    input:{
-      width: "80%",
-      height: 55,
-      backgroundColor: "#E9DCC9",
-      color: "#0A3A40",
-      borderRadius: 10,
-      fontSize: 18,
-      paddingVertical: 4,
-      paddingHorizontal: 10,
-    },
-    addMargin:{
-      marginTop: 20
-    },
+  form:{
+    width: "100%",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    paddingTop: 20,
+    paddingBottom: 40,
+    backgroundColor: "#c04621ff",
+    borderRadius: 4,
+  },
+  label:{
+    fontSize: 22,
+    color: "#0A3A40",
+    fontWeight: "bold",
+    paddingBottom: 20,
+  },
 })

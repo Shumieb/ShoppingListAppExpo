@@ -8,7 +8,7 @@ interface formSubmitButtonProps {
 const FormSubmitButton = ({formBtnText}: formSubmitButtonProps) => {
   return (
     <TouchableOpacity style={styles.formBtn}>
-        <Ionicons name="add-circle-sharp" size={22} color="#E9DCC9" />
+        <Ionicons name="add-circle-sharp" size={24} color="#E9DCC9" />
         <Text style={styles.formBtnText}>Add {formBtnText}</Text>
     </TouchableOpacity>
   )
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
       alignItems: "center",
       fontSize: 18,
       paddingHorizontal: 2,
-      paddingVertical: 8,
+      paddingVertical: 10,
       borderRadius: 4,
       fontWeight: "bold",
       width: "50%",
@@ -32,11 +32,11 @@ const styles = StyleSheet.create({
       backgroundColor: "#0A3A40",
       color: "#E9DCC9",
       borderColor: "#0A3A40",
-      marginTop: 18,
+      marginTop: 25,
     },
     formBtnText: {
       color: "#E9DCC9",
-      fontSize: 18,
+      fontSize: 20,
       fontWeight: "bold",
       paddingLeft: 8,
     },
