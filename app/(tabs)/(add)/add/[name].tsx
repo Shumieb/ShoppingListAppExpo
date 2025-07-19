@@ -1,12 +1,12 @@
 import FormSubmitButton from '@/components/FormSubmitButton';
 import PickerComponent from '@/components/PickerComponent';
+import ToggleFormButton from '@/components/ToggleFormButton';
 import useShoppingListStore from '@/stores/shoppingListsStore';
 
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
 
 const AddPage = () => {
 
@@ -14,7 +14,7 @@ const AddPage = () => {
 
   const addToShoppingList = useShoppingListStore((state) => state.addToShoppingList)
 
-  const [selectedBtn, setSelectedBtn] = useState<string | string[]>("list");
+  const [selectedBtn, setSelectedBtn] = useState<string>("list");
   const [newName, setNewName] = useState("");
   const [formTitle, setFormTitle] = useState("Create New List");
   const [formPlaceHolder, setFormPlaceHolder] = useState("new list");
@@ -25,7 +25,7 @@ const AddPage = () => {
   let listToPickFrom = useShoppingListStore.getState().shoppingLists;
 
   useEffect(()=>{
-    if(name != undefined) setSelectedBtn(name);
+    if(name != undefined && (typeof name === "string")) setSelectedBtn(name);
   }, [])
 
   const addToList = (value: string) =>{
@@ -45,20 +45,20 @@ const AddPage = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={["left", "right"]}> 
+    <SafeAreaView style={styles.container}> 
       <View style={styles.btnContainer}>
-        <TouchableOpacity 
-          style={[styles.btn, (selectedBtn == "list") ? styles.btnActive : styles.btnInActive]}
-          onPress={() => addToList("list")}
-        >
-          <Text style={styles.btnText}>New List </Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={[styles.btn, (selectedBtn == "item") ? styles.btnActive : styles.btnInActive]}
-          onPress={() => addToList("item")}
-        >
-          <Text style={styles.btnText}>New Item</Text>
-        </TouchableOpacity>
+        <ToggleFormButton 
+          selectedBtn={selectedBtn}
+          addToList={addToList}
+          buttonValue="list" 
+          buttonText="New List"
+        />
+        <ToggleFormButton 
+          selectedBtn={selectedBtn}
+          addToList={addToList}
+          buttonValue="item" 
+          buttonText="New Item"
+        />
       </View> 
       <View style={styles.form}>
         <Text style={styles.label}>{formTitle} </Text>
@@ -93,7 +93,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     paddingRight: 6,
     paddingHorizontal: 8,
-    margin: 0,
     backgroundColor: "#0A3A40",
   },
   btnContainer:{
@@ -101,37 +100,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    marginBottom: 40,
-    marginTop: 8
+    marginVertical: 40,
   },
-  btn:{
-      justifyContent: "center",
-      alignItems: "center",
-      fontSize: 18,
-      paddingHorizontal: 2,
-      paddingVertical: 6,
-      borderRadius: 4,
-      fontWeight: "bold",
-      width: "40%",
-      borderWidth: 2,
-      marginHorizontal: 6,
-    },
-    btnActive:{
-      backgroundColor: "#c04621ff",
-      color: "#0A3A40",
-      borderColor: "#c04621ff",
-    },
-    btnInActive:{
-      backgroundColor: "#943011ff",
-      color: "#0A3A40",
-      borderColor: "#943011ff",
-    },
-    btnText: {
-      color: "#0A3A40",
-      fontSize: 16,
-      fontWeight: "bold",
-      paddingLeft: 8,
-    },
     form:{
       width: "100%",
       justifyContent: "flex-start",
@@ -156,7 +126,6 @@ const styles = StyleSheet.create({
       paddingVertical: 4,
       paddingHorizontal: 10,
     },
-    
     addMargin:{
       marginTop: 20
     },

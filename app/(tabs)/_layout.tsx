@@ -59,6 +59,7 @@ const TabLayout = () => {
         <Tabs.Screen 
             name="(add)" 
             options={{ 
+                headerShown: false,
                 title: "Add",
                 tabBarIcon: ({ color, focused }) => (
                     <AntDesign 
