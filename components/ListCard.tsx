@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     cardTitle:{
-        color: "#fff",
+        color: "#E9DCC9",
         fontSize: 18,
         fontWeight: "bold"
     }

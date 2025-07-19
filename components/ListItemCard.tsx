@@ -34,7 +34,7 @@ const ListItemCard = ({title, id, completed, toggleItemCompleted}: CardProps) =>
             <Checkbox 
                 style={styles.checkbox} 
                 value={isChecked} 
-                color={isChecked ? "#3d3737ff":"white"}
+                color={isChecked ? "#3d3737ff":"#E9DCC9"}
                 onValueChange={setChecked}
             />
             <Text style={[styles.cardTitle, isChecked ? styles.cardCompleted: null]}>{title}</Text>
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     cardTitle:{
-        color: "#fff",
+        color: "#E9DCC9",
         fontSize: 18,
         fontWeight: "bold",
         marginLeft: 4

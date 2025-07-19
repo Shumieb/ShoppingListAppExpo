@@ -48,9 +48,9 @@ const styles = StyleSheet.create({
       width: "40%",
       borderWidth: 2,
       marginHorizontal: 6,
-      backgroundColor: "#f4511e",
-      color: "#fff",
-      borderColor: "#f4511e",
+      backgroundColor: "#c04621ff",
+      color: "#E9DCC9",
+      borderColor: "#c04621ff",
       textAlign: "center"
     },
     linkText:{

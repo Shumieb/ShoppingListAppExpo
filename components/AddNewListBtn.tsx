@@ -16,7 +16,7 @@ const AddNewListBtn = () => {
         style={styles.btn}
         onPress={addToList}
     >
-        <AntDesign name="pluscircle" size={18} color="white" />
+        <AntDesign name="pluscircle" size={18} color="#0A3A40" />
         <Text style={styles.btnText}>New List</Text>
     </TouchableOpacity>
   )
@@ -30,18 +30,18 @@ const styles = StyleSheet.create({
       justifyContent: "center",
       alignItems: "center",
       fontSize: 18,
-      backgroundColor: "#f4511e",
+      backgroundColor: "#c04621ff",
       color: "#fff",
       paddingHorizontal: 2,
       paddingVertical: 6,
       borderRadius: 4,
       fontWeight: "bold",
       width: "40%",
-      borderColor: "#f4511e",
+      borderColor: "#c04621ff",
       borderWidth: 2
     },
     btnText: {
-      color: "#fff",
+      color: "#0A3A40",
       fontSize: 16,
       fontWeight: "bold",
       paddingLeft: 8,
