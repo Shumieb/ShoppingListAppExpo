@@ -1,6 +1,7 @@
+import FormSubmitButton from '@/components/FormSubmitButton';
 import PickerComponent from '@/components/PickerComponent';
 import useShoppingListStore from '@/stores/shoppingListsStore';
-import Ionicons from '@expo/vector-icons/Ionicons';
+
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -77,10 +78,7 @@ const AddPage = () => {
             />
           ): null
         }
-        <TouchableOpacity style={styles.formBtn}>
-          <Ionicons name="add-circle-sharp" size={22} color="#E9DCC9" />
-          <Text style={styles.formBtnText}>Add {formBtnText}</Text>
-        </TouchableOpacity>
+        <FormSubmitButton formBtnText={formBtnText} />
       </View>     
     </SafeAreaView>
   )
@@ -143,7 +141,7 @@ const styles = StyleSheet.create({
       borderRadius: 4,
     },
     label:{
-      fontSize: 18,
+      fontSize: 22,
       color: "#0A3A40",
       fontWeight: "bold",
       paddingBottom: 20,
@@ -158,29 +156,7 @@ const styles = StyleSheet.create({
       paddingVertical: 4,
       paddingHorizontal: 10,
     },
-    formBtn:{
-      flexDirection: "row",
-      justifyContent: "center",
-      alignItems: "center",
-      fontSize: 18,
-      paddingHorizontal: 2,
-      paddingVertical: 8,
-      borderRadius: 4,
-      fontWeight: "bold",
-      width: "50%",
-      borderWidth: 2,
-      marginHorizontal: 6,
-      backgroundColor: "#0A3A40",
-      color: "#E9DCC9",
-      borderColor: "#0A3A40",
-      marginTop: 18,
-    },
-    formBtnText: {
-      color: "#E9DCC9",
-      fontSize: 18,
-      fontWeight: "bold",
-      paddingLeft: 8,
-    },
+    
     addMargin:{
       marginTop: 20
     },
