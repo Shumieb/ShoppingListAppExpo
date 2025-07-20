@@ -71,7 +71,7 @@ const TabLayout = () => {
                 }}
             />
             <Tabs.Screen
-                name="(settings)"
+                name="(hidden)"
                 options={{
                     headerShown: false,
                     href: null,
