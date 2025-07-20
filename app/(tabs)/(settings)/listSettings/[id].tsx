@@ -1,4 +1,5 @@
 import EditNameModal from '@/components/EditNameModal';
+import FeedBackModal from '@/components/FeedBackTextModal';
 import NoSelectedListComponent from '@/components/NoSelectedListComponent';
 import useListItemStore from '@/stores/listItemStore';
 import useShoppingListStore from '@/stores/shoppingListsStore';
@@ -16,12 +17,14 @@ const ListSettings = () => {
 
     const getShoppingListById = useShoppingListStore((state) => state.getShoppingListById)
     const updateShoppingList = useShoppingListStore((state) => state.updateShoppingList)
+    const removeShoppingList = useShoppingListStore((state) => state.removeShoppingList)
 
     const getItemCountByListId = useListItemStore((state) => state.getItemCountByListId)
 
     const [title, setTitle] = useState<string | undefined>("Default");
     const [itemCount, setItemCount] = useState<number>(0);
     const [editModalVisible, setEditModalVisible] = useState(false);
+    const [unsuccessfulDelete, setUnsuccessfulDelete] = useState(false);
 
     useEffect(() => {
         if (id != null) {
@@ -51,7 +54,13 @@ const ListSettings = () => {
     }
 
     const deleteList = () => {
-        console.log("delete list");
+        if (id == null) return;
+        if (itemCount <= 0) {
+            removeShoppingList(id as string);
+            router.replace("/shoppingLists");
+        } else {
+            setUnsuccessfulDelete(!unsuccessfulDelete);
+        }
     }
 
     // If no id is provided, show a no selected list component
@@ -102,6 +111,13 @@ const ListSettings = () => {
                 editListName={editListName}
                 setModalVisible={setEditModalVisible}
                 currentNameId={id as string}
+            />
+
+            {/* Delete unsuccessful modal */}
+            <FeedBackModal
+                modalVisible={unsuccessfulDelete}
+                setModalVisible={setUnsuccessfulDelete}
+                modalText="You cannot delete a list with items in it. Please remove all items before deleting the list."
             />
         </SafeAreaView>
     )

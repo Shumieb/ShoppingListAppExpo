@@ -6,40 +6,39 @@ const AddNewItemBtn = () => {
 
     const router = useRouter();
 
-    const addToList = () =>{
+    const addToList = () => {
         router.replace("/add/item")
     }
 
-  return (
-    <TouchableOpacity 
-        style={styles.btn}
-        onPress={addToList}
-    >
-        <AntDesign name="pluscircle" size={18} color="#0A3A40" />
-        <Text style={styles.btnText}>New Item</Text>
-    </TouchableOpacity>
-  )
+    return (
+        <TouchableOpacity
+            style={styles.btn}
+            onPress={addToList}
+        >
+            <AntDesign name="pluscircle" size={20} color="#0A3A40" />
+            <Text style={styles.btnText}>New Item</Text>
+        </TouchableOpacity>
+    )
 }
 
 export default AddNewItemBtn
 
 const styles = StyleSheet.create({
-    btn:{
+    btn: {
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
         fontSize: 18,
         backgroundColor: "#c04621ff",
-        color: "#fff",
         paddingHorizontal: 2,
         paddingVertical: 6,
         borderRadius: 4,
         fontWeight: "bold",
-        width: "40%",
+        width: "50%",
         borderColor: "#c04621ff",
         borderWidth: 2
     },
-    btnText:{
+    btnText: {
         color: "#0A3A40",
         fontSize: 16,
         fontWeight: "bold",

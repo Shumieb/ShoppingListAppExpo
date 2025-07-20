@@ -1,11 +1,10 @@
+import FeedBackTextModal from '@/components/FeedBackTextModal';
 import FormSubmitButton from '@/components/FormSubmitButton';
 import FormTextInput from '@/components/FormTextInput';
 import PickerComponent from '@/components/PickerComponent';
 import ToggleFormButton from '@/components/ToggleFormButton';
 import useListItemStore from '@/stores/listItemStore';
 import useShoppingListStore from '@/stores/shoppingListsStore';
-
-import SuccessModal from '@/components/SuccessModal';
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -37,8 +36,11 @@ const AddPage = () => {
   const [modalText, setModalText] = useState("");
 
   useEffect(() => {
-    if (name != undefined && (typeof name === "string")) setSelectedForm(name);
-  }, [])
+    if (name != undefined && (typeof name === "string")) {
+      setSelectedForm(name);
+      toggleForm(name);
+    }
+  }, [name])
 
   const toggleForm = (value: string) => {
     setSelectedForm(value);
@@ -126,19 +128,23 @@ const AddPage = () => {
         </View>
         <View style={styles.form}>
           <Text style={styles.label}>{formTitle} </Text>
-          <FormTextInput
-            onChangeHandler={setNewName}
-            inputValue={newName}
-            formPlaceHolder={formPlaceHolder}
-          />
+          <View style={styles.formInputContainer}>
+            <FormTextInput
+              onChangeHandler={setNewName}
+              inputValue={newName}
+              formPlaceHolder={formPlaceHolder}
+            />
+          </View>
           {
             formType == "item" ?
               (
-                <PickerComponent
-                  selected={selectedList}
-                  setSelected={setSelectedList}
-                  listToPickFrom={listToPickFrom}
-                />
+                <View style={styles.formInputContainer}>
+                  <PickerComponent
+                    selected={selectedList}
+                    setSelected={setSelectedList}
+                    listToPickFrom={listToPickFrom}
+                  />
+                </View>
               ) : null
           }
           <FormSubmitButton
@@ -149,7 +155,7 @@ const AddPage = () => {
       </ScrollView>
 
       {/* modal */}
-      <SuccessModal
+      <FeedBackTextModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         modalText={modalText}
@@ -183,7 +189,11 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 40,
     backgroundColor: "#428188ff",
-    borderRadius: 4,
+    borderRadius: 10,
+  },
+  formInputContainer: {
+    width: "100%",
+    paddingHorizontal: 20,
   },
   label: {
     fontSize: 22,

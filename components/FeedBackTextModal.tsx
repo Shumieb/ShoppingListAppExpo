@@ -6,7 +6,11 @@ interface modalComponentProps {
     modalText: string;
 }
 
-const SuccessModal = ({ modalVisible, setModalVisible, modalText }: modalComponentProps) => {
+const FeedBackTextModal = ({
+    modalVisible,
+    setModalVisible,
+    modalText
+}: modalComponentProps) => {
     return (
         <Modal
             animationType="slide"
@@ -30,7 +34,7 @@ const SuccessModal = ({ modalVisible, setModalVisible, modalText }: modalCompone
     )
 }
 
-export default SuccessModal
+export default FeedBackTextModal
 
 const styles = StyleSheet.create({
     centeredView: {
