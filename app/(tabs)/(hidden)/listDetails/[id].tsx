@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const ListSettings = () => {
+const ListDetails = () => {
 
     const { id } = useLocalSearchParams();
     const router = useRouter();
@@ -125,7 +125,7 @@ const ListSettings = () => {
     )
 }
 
-export default ListSettings
+export default ListDetails
 
 const styles = StyleSheet.create({
     container: {

@@ -16,7 +16,7 @@ const ListCard = ({ title, id }: CardProps) => {
     }
 
     const showShoppingListSettings = () => {
-        router.replace({ pathname: "/listSettings/[id]", params: { id } })
+        router.replace({ pathname: "/listDetails/[id]", params: { id } })
     }
 
     return (

@@ -1,5 +1,7 @@
 import useListItemStore from '@/stores/listItemStore';
 import useShoppingListStore from '@/stores/shoppingListsStore';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import Feather from '@expo/vector-icons/Feather';
 import { useEffect, useState } from 'react';
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import FormTextInput from './FormTextInput';
@@ -66,15 +68,17 @@ const EditNameModal = ({
                     </View>
                     <View style={styles.btnContainer}>
                         <TouchableOpacity
-                            style={[styles.button, styles.btnSubmit]}
+                            style={[styles.btn, styles.btnSubmit]}
                             onPress={() => editName(newName)}
                         >
+                            <Feather name="edit" size={18} color="#E9DCC9" />
                             <Text style={styles.textStyle}>Edit</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={[styles.button, styles.btnClose]}
+                            style={[styles.btn, styles.btnClose]}
                             onPress={() => setModalVisible(!modalVisible)}
                         >
+                            <AntDesign name="closecircle" size={18} color="#E9DCC9" />
                             <Text style={styles.textStyle}>Cancel</Text>
                         </TouchableOpacity>
                     </View>
@@ -116,12 +120,15 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: "bold",
     },
-    button: {
+    btn: {
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
         borderRadius: 10,
         paddingVertical: 12,
         paddingHorizontal: 10,
         elevation: 2,
-        width: "40%",
+        width: "48%",
         marginHorizontal: 8,
     },
     btnClose: {
@@ -135,6 +142,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
         fontSize: 16,
+        paddingLeft: 4,
     },
     formInputContainer: {
         width: "100%",

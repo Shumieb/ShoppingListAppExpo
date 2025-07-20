@@ -14,7 +14,7 @@ interface ItemType {
     completed: boolean
 };
 
-const ItemSettings = () => {
+const ItemDetails = () => {
 
     const { id } = useLocalSearchParams();
     const router = useRouter();
@@ -100,7 +100,7 @@ const ItemSettings = () => {
     )
 }
 
-export default ItemSettings
+export default ItemDetails
 
 const styles = StyleSheet.create({
     container: {
