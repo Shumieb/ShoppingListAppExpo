@@ -25,6 +25,12 @@ const useListItemStore = create((set) => ({
   getItemCountByListId: (listId) => {
     return useListItemStore.getState().items.filter((item) => item.listId === listId).length;
   },
+  // Function to toggle the completion status of an item
+  toggleItemCompleted: (id) => set((state) => ({
+    items: state.items.map((item) =>
+      item.id === id ? { ...item, completed: !item.completed } : item
+    )
+  })),
 }));
 
 export default useListItemStore;

@@ -74,14 +74,7 @@ const TabLayout = () => {
                 name="(settings)"
                 options={{
                     headerShown: false,
-                    title: "Settings",
-                    tabBarIcon: ({ color, focused }) => (
-                        <AntDesign
-                            name={focused ? 'plussquare' : 'plussquareo'}
-                            color={color}
-                            size={24}
-                        />
-                    ),
+                    href: null,
                 }}
             />
         </Tabs>

@@ -24,7 +24,6 @@ const AddPage = () => {
   const addNewItem = useListItemStore((state) => state.addNewItem)
   const getShoppingListById = useShoppingListStore((state) => state.getShoppingListById)
 
-
   const [selectedForm, setSelectedForm] = useState<string>("list");
   const [newName, setNewName] = useState("");
   const [formTitle, setFormTitle] = useState("Create New List");
@@ -194,6 +193,7 @@ const styles = StyleSheet.create({
   formInputContainer: {
     width: "100%",
     paddingHorizontal: 20,
+    marginTop: 20,
   },
   label: {
     fontSize: 22,

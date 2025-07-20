@@ -108,9 +108,11 @@ const ListSettings = () => {
             {/* Edit list modal */}
             <EditNameModal
                 modalVisible={editModalVisible}
-                editListName={editListName}
+                editName={editListName}
                 setModalVisible={setEditModalVisible}
                 currentNameId={id as string}
+                modalType="list"
+                modalTitle="Edit List Name"
             />
 
             {/* Delete unsuccessful modal */}

@@ -1,5 +1,4 @@
 import { Picker } from '@react-native-picker/picker';
-import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 interface listType {
@@ -14,6 +13,7 @@ interface pickerType {
 }
 
 const PickerComponent = ({ selected, setSelected, listToPickFrom }: pickerType) => {
+
   return (
     <View style={styles.pickerContainer}>
       <Picker
@@ -23,7 +23,7 @@ const PickerComponent = ({ selected, setSelected, listToPickFrom }: pickerType) 
       >
         <Picker.Item
           label="Select a Shopping list"
-          value={undefined}
+          value=""
           style={styles.pickerItem}
         />
         {
@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#bdc3c7',
     overflow: 'hidden',
-    marginTop: 20,
   },
   picker: {
     width: "100%",

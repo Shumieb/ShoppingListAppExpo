@@ -1,3 +1,4 @@
+import useListItemStore from '@/stores/listItemStore';
 import useShoppingListStore from '@/stores/shoppingListsStore';
 import { useEffect, useState } from 'react';
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -5,30 +6,43 @@ import FormTextInput from './FormTextInput';
 
 interface modalComponentProps {
     modalVisible: boolean;
-    editListName: (name: string) => void;
+    editName: (name: string) => void;
     setModalVisible: (visible: boolean) => void;
     currentNameId?: string;
+    modalType: "list" | "item";
+    modalTitle: string;
 }
 
 const EditNameModal = ({
     modalVisible,
-    editListName,
+    editName,
     setModalVisible,
     currentNameId = "",
+    modalType,
+    modalTitle,
 }: modalComponentProps) => {
 
     const getShoppingListById = useShoppingListStore((state) => state.getShoppingListById)
 
+    const getItemById = useListItemStore((state) => state.getItemById)
+
     const [newName, setNewName] = useState("");
 
     useEffect(() => {
+        console.log("currentNameId: ", currentNameId);
+        let title;
         if (currentNameId) {
-            let title = getShoppingListById(currentNameId);
+            if (modalType === "item") {
+                title = getItemById(currentNameId);
+            } else if (modalType === "list") {
+                title = getShoppingListById(currentNameId);
+            }
+
             if (title?.name) {
                 setNewName(title?.name);
             }
         }
-    }, []);
+    }, [currentNameId, modalType]);
 
     return (
         <Modal
@@ -40,7 +54,7 @@ const EditNameModal = ({
             }}>
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                    <Text style={styles.modalText}>Edit List Name</Text>
+                    <Text style={styles.modalText}>{modalTitle}</Text>
                     <View style={styles.formInputContainer}>
                         <FormTextInput
                             onChangeHandler={setNewName}
@@ -53,7 +67,7 @@ const EditNameModal = ({
                     <View style={styles.btnContainer}>
                         <TouchableOpacity
                             style={[styles.button, styles.btnSubmit]}
-                            onPress={() => editListName(newName)}
+                            onPress={() => editName(newName)}
                         >
                             <Text style={styles.textStyle}>Edit</Text>
                         </TouchableOpacity>

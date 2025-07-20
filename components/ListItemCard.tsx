@@ -1,32 +1,40 @@
+import useListItemStore from '@/stores/listItemStore'
 import Feather from '@expo/vector-icons/Feather'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import Checkbox from 'expo-checkbox'
+import { router } from 'expo-router'
 import { useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
-interface CardProps {
-    title: string,
+interface ItemType {
     id: string,
-    completed: boolean,
-    toggleItemCompleted: (id: string) => void,
+    name: string,
+    listId: string,
+    completed: boolean
+};
+
+interface CardProps {
+    item: ItemType
 }
 
-const ListItemCard = ({ title, id, completed, toggleItemCompleted }: CardProps) => {
+const ListItemCard = ({ item }: CardProps) => {
 
-    const [isChecked, setIsChecked] = useState(completed);
+    const toggleItemCompleted = useListItemStore((state) => state.toggleItemCompleted)
+
+    const [isChecked, setIsChecked] = useState(item.completed);
 
     const setChecked = () => {
         setIsChecked(!isChecked);
-        toggleItemCompleted(id);
+        toggleItemCompleted(item.id);
     }
 
-    const editItem = () => {
-        console.log("edit item");
+    const handleEditItem = () => {
+        router.push({ pathname: "/itemSettings/[id]", params: { id: item.id } })
     }
 
-    const deleteItem = () => {
+    const handleDeleteItem = () => {
         console.log("delete item");
-    }
+    };
 
     return (
         <View style={styles.card}>
@@ -37,18 +45,22 @@ const ListItemCard = ({ title, id, completed, toggleItemCompleted }: CardProps) 
                     color={isChecked ? "#3d3737ff" : "#E9DCC9"}
                     onValueChange={setChecked}
                 />
-                <Text style={[styles.cardTitle, isChecked ? styles.cardCompleted : null]}>{title}</Text>
+                <Text
+                    style={[styles.cardTitle, isChecked ? styles.cardCompleted : null]}
+                >
+                    {item.name}
+                </Text>
             </View>
             <View style={styles.cardBtns}>
                 <TouchableOpacity
                     style={styles.btn}
-                    onPress={editItem}
+                    onPress={handleEditItem}
                 >
                     <Feather name="edit" size={22} color="#c1dde0ff" />
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.btn}
-                    onPress={deleteItem}
+                    onPress={handleDeleteItem}
                 >
                     <Ionicons name="trash" size={22} color="#f4b4b4ff" />
                 </TouchableOpacity>
@@ -68,7 +80,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 6,
         borderRadius: 4,
         marginLeft: 12,
-        height: 50,
         flex: 1,
         flexDirection: "row",
         justifyContent: "space-between",

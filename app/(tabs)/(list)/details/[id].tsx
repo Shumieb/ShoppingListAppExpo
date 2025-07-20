@@ -1,15 +1,14 @@
 import AddNewItemBtn from '@/components/AddNewItemBtn'
 import ListItemCard from '@/components/ListItemCard'
+import NoSelectedListComponent from '@/components/NoSelectedListComponent'
+import useListItemStore from '@/stores/listItemStore'
+import useShoppingListStore from '@/stores/shoppingListsStore'
 import { useLocalSearchParams } from 'expo-router'
 import { useEffect, useState } from 'react'
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-import NoSelectedListComponent from '@/components/NoSelectedListComponent'
-import useListItemStore from '@/stores/listItemStore'
-import useShoppingListStore from '@/stores/shoppingListsStore'
-
-interface listType {
+interface ItemType {
   id: string,
   name: string,
   listId: string,
@@ -21,10 +20,12 @@ const ShoppingListDetails = () => {
   const { id } = useLocalSearchParams();
 
   const [title, setTitle] = useState<string | undefined>("Default");
-  const [displayList, setDisplayList] = useState<listType[]>([]);
+  const [displayList, setDisplayList] = useState<ItemType[]>([]);
 
   const getShoppingListById = useShoppingListStore((state) => state.getShoppingListById)
-  const listItems = useListItemStore((state) => state.items)
+
+  const getItemsByListId = useListItemStore((state) => state.getItemsByListId)
+  const items = useListItemStore((state) => state.items)
 
   useEffect(() => {
     if (id != null) {
@@ -35,14 +36,16 @@ const ShoppingListDetails = () => {
       }
 
       // set the list to display
-      let list: listType[] = listItems.filter((item: listType) => item.listId === id);
+      let list: ItemType[] = getItemsByListId(id);
       setDisplayList(list);
     }
-  }, [])
+  }, [id])
 
-  const toggleItemCompleted = (id: string) => {
-    console.log("toggle completed", id)
-  }
+  useEffect(() => {
+    // set the list to display
+    let list: ItemType[] = getItemsByListId(id);
+    setDisplayList(list);
+  }, [items])
 
   // If no id is provided, show a no selected list component
   if (id == null) {
@@ -58,10 +61,7 @@ const ShoppingListDetails = () => {
         data={displayList}
         renderItem={({ item }) =>
           <ListItemCard
-            title={item.name}
-            id={item.id}
-            completed={item.completed}
-            toggleItemCompleted={toggleItemCompleted}
+            item={item}
           />
         }
         keyExtractor={item => item.id}
