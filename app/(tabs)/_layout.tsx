@@ -1,4 +1,3 @@
-import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Tabs } from 'expo-router';
@@ -32,7 +31,7 @@ const TabLayout = () => {
             <Tabs.Screen
                 name="shoppingLists"
                 options={{
-                    title: "Home",
+                    title: "Shopping Lists",
                     tabBarIcon: ({ color, focused }) => (
                         <Ionicons
                             name={focused ? 'home-sharp' : 'home-outline'}
@@ -50,20 +49,6 @@ const TabLayout = () => {
                     tabBarIcon: ({ color, focused }) => (
                         <FontAwesome5
                             name={focused ? 'list-alt' : 'list-ul'}
-                            color={color}
-                            size={24}
-                        />
-                    ),
-                }}
-            />
-            <Tabs.Screen
-                name="(add)"
-                options={{
-                    headerShown: false,
-                    title: "Add",
-                    tabBarIcon: ({ color, focused }) => (
-                        <AntDesign
-                            name={focused ? 'plussquare' : 'plussquareo'}
                             color={color}
                             size={24}
                         />

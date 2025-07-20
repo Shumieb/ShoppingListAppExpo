@@ -1,14 +1,29 @@
 import { FlatList, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-import AddNewListBtn from '@/components/AddNewListBtn'
 import ListCard from '@/components/ListCard'
 
+import AddNameModal from '@/components/AddNameModal'
+import AddNewListItemBtn from '@/components/AddNewListItemBtn'
 import useShoppingListStore from '@/stores/shoppingListsStore'
+import { useState } from 'react'
 
 const ShoppingLists = () => {
 
   const shoppingLists = useShoppingListStore((state) => state.shoppingLists)
+  const addNewShoppingList = useShoppingListStore((state) => state.addNewShoppingList)
+
+  const [modalVisible, setModalVisible] = useState<boolean>(false)
+
+  const addName = (newName: string) => {
+    let newShoppingList = {
+      id: Math.random().toString(36).substring(2, 15),
+      name: newName
+    }
+    // add to shopping list
+    addNewShoppingList(newShoppingList);
+    setModalVisible(false)
+  }
 
   return (
     <SafeAreaView style={styles.container} edges={["left", "right"]}>
@@ -19,9 +34,21 @@ const ShoppingLists = () => {
         style={styles.listContainer}
         ListHeaderComponent={
           <View style={styles.btnContainer}>
-            <AddNewListBtn />
+            <AddNewListItemBtn
+              setModalVisible={setModalVisible}
+              buttonText='New List'
+            />
           </View>
         }
+      />
+
+      {/* Add New List Modal */}
+      <AddNameModal
+        modalVisible={modalVisible}
+        addName={addName}
+        setModalVisible={setModalVisible}
+        modalTitle="Add New Shopping List"
+        placeHolder='new shopping list'
       />
     </SafeAreaView>
   )

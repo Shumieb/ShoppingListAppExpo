@@ -1,4 +1,5 @@
-import AddNewItemBtn from '@/components/AddNewItemBtn'
+import AddNameModal from '@/components/AddNameModal'
+import AddNewListItemBtn from '@/components/AddNewListItemBtn'
 import ListItemCard from '@/components/ListItemCard'
 import NoSelectedListComponent from '@/components/NoSelectedListComponent'
 import useListItemStore from '@/stores/listItemStore'
@@ -21,11 +22,13 @@ const ShoppingListDetails = () => {
 
   const [title, setTitle] = useState<string | undefined>("Default");
   const [displayList, setDisplayList] = useState<ItemType[]>([]);
+  const [modalVisible, setModalVisible] = useState<boolean>(false)
 
   const getShoppingListById = useShoppingListStore((state) => state.getShoppingListById)
 
   const getItemsByListId = useListItemStore((state) => state.getItemsByListId)
   const items = useListItemStore((state) => state.items)
+  const addNewItem = useListItemStore((state) => state.addNewItem)
 
   useEffect(() => {
     if (id != null) {
@@ -46,6 +49,17 @@ const ShoppingListDetails = () => {
     let list: ItemType[] = getItemsByListId(id);
     setDisplayList(list);
   }, [items])
+
+  const addItem = (newName: string) => {
+    let newItem: ItemType = {
+      id: Math.random().toString(36).substring(2, 15),
+      name: newName,
+      listId: id as string,
+      completed: false
+    }
+    addNewItem(newItem)
+    setModalVisible(false)
+  }
 
   // If no id is provided, show a no selected list component
   if (id == null) {
@@ -68,9 +82,19 @@ const ShoppingListDetails = () => {
         style={styles.listContainer}
         ListHeaderComponent={
           <View style={styles.btnContainer}>
-            <AddNewItemBtn />
+            <AddNewListItemBtn
+              setModalVisible={setModalVisible}
+              buttonText='New Item'
+            />
           </View>
         }
+      />
+      <AddNameModal
+        modalVisible={modalVisible}
+        addName={addItem}
+        setModalVisible={setModalVisible}
+        modalTitle="Add New Item"
+        placeHolder='add new item'
       />
     </SafeAreaView>
   )

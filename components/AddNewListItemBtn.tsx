@@ -1,28 +1,27 @@
-import { useRouter } from 'expo-router';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-import AntDesign from '@expo/vector-icons/AntDesign';
+interface PropTypes {
+  setModalVisible: (visible: boolean) => void;
+  buttonText: string
+}
 
-const AddNewListBtn = () => {
-
-  const router = useRouter();
-
-  const addToList = () => {
-    router.replace("/add/list")
-  }
-
+const AddNewListItemBtn = ({
+  setModalVisible,
+  buttonText
+}: PropTypes) => {
   return (
     <TouchableOpacity
       style={styles.btn}
-      onPress={addToList}
+      onPress={() => setModalVisible(true)}
     >
       <AntDesign name="pluscircle" size={20} color="#0A3A40" />
-      <Text style={styles.btnText}>New List</Text>
+      <Text style={styles.btnText}>{buttonText}</Text>
     </TouchableOpacity>
   )
 }
 
-export default AddNewListBtn
+export default AddNewListItemBtn
 
 const styles = StyleSheet.create({
   btn: {
