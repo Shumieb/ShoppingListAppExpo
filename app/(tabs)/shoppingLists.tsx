@@ -17,7 +17,6 @@ const ShoppingLists = () => {
         renderItem={({item})=> <ListCard title={item.name} id={item.id}/>}
         keyExtractor={item => item.id}
         style={styles.listContainer}
-        numColumns={2}
         ListHeaderComponent={
           <View style={styles.btnContainer}>
             <AddNewListBtn/>
@@ -35,17 +34,14 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "flex-start",
         alignItems: "flex-start",
-        paddingRight: 6,
-        margin: 0,
+        padding: 6,
         backgroundColor: "#0A3A40",
     },
     listContainer:{
-      flex: 1,
       width: "100%",
       height: "100%",
       margin: 0,
-      padding: 2,
-      paddingHorizontal: 2
+      padding: 6,
     },
     btnContainer:{
       width: "100%",

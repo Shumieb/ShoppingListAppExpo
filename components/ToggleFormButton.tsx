@@ -1,21 +1,21 @@
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 interface toggleFormButtonProps {
-    selectedBtn: string;
-    addToList: (value: string) => void;
-    buttonValue: string;
-    buttonText: string;
+  selectedForm: string;
+  toggleForm: (value: string) => void;
+  buttonValue: string;
+  buttonText: string;
 }
 
 const ToggleFormButton = (
-    {selectedBtn, addToList, buttonValue, buttonText}:toggleFormButtonProps
+  { selectedForm, toggleForm, buttonValue, buttonText }: toggleFormButtonProps
 ) => {
   return (
-    <TouchableOpacity 
-        style={[styles.btn, (selectedBtn == buttonValue) ? styles.btnActive : styles.btnInActive]}
-        onPress={() => addToList(buttonValue)}
+    <TouchableOpacity
+      style={[styles.btn, (selectedForm == buttonValue) ? styles.btnActive : styles.btnInActive]}
+      onPress={() => toggleForm(buttonValue)}
     >
-        <Text style={styles.btnText}> {buttonText} </Text>
+      <Text style={(selectedForm == buttonValue) ? styles.btnText : styles.btnTextInActive}> {buttonText} </Text>
     </TouchableOpacity>
   )
 }
@@ -23,31 +23,37 @@ const ToggleFormButton = (
 export default ToggleFormButton
 
 const styles = StyleSheet.create({
-    btn:{
-      justifyContent: "center",
-      alignItems: "center",
-      paddingHorizontal: 2,
-      paddingVertical: 6,
-      borderRadius: 4,
-      fontWeight: "bold",
-      width: "40%",
-      borderWidth: 2,
-      marginHorizontal: 6,
-    },
-    btnActive:{
-      backgroundColor: "#c04621ff",
-      color: "#0A3A40",
-      borderColor: "#c04621ff",
-    },
-    btnInActive:{
-      backgroundColor: "#943011ff",
-      color: "#0A3A40",
-      borderColor: "#943011ff",
-    },
-    btnText: {
-      color: "#0A3A40",
-      fontSize: 18,
-      fontWeight: "bold",
-      paddingLeft: 8,
-    },
+  btn: {
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 2,
+    paddingVertical: 6,
+    borderRadius: 4,
+    fontWeight: "bold",
+    width: "40%",
+    borderWidth: 2,
+    marginHorizontal: 6,
+  },
+  btnActive: {
+    backgroundColor: "#428188ff",
+    color: "#E9DCC9",
+    borderColor: "#428188ff",
+  },
+  btnInActive: {
+    backgroundColor: "#603529ff",
+    color: "#0A3A40",
+    borderColor: "#603529ff",
+  },
+  btnText: {
+    color: "#E9DCC9",
+    fontSize: 18,
+    fontWeight: "bold",
+    paddingLeft: 8,
+  },
+  btnTextInActive: {
+    color: "#a79d90ff",
+    fontSize: 18,
+    fontWeight: "bold",
+    paddingLeft: 8,
+  },
 })
