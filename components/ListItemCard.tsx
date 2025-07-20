@@ -33,7 +33,7 @@ const ListItemCard = ({ item }: CardProps) => {
     }
 
     const handleDeleteItem = () => {
-        console.log("delete item");
+        router.push({ pathname: "/deleteItem/[id]", params: { id: item.id } })
     };
 
     return (
@@ -62,7 +62,7 @@ const ListItemCard = ({ item }: CardProps) => {
                     style={styles.btn}
                     onPress={handleDeleteItem}
                 >
-                    <Ionicons name="trash" size={22} color="#f4b4b4ff" />
+                    <Ionicons name="trash" size={22} color="#f86363ff" />
                 </TouchableOpacity>
             </View>
         </View>

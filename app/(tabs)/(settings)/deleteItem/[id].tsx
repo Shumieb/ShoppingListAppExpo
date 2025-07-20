@@ -1,6 +1,5 @@
-import FormTextInput from '@/components/FormTextInput';
 import useListItemStore from '@/stores/listItemStore';
-import Feather from '@expo/vector-icons/Feather';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
@@ -14,17 +13,15 @@ interface ItemType {
     completed: boolean
 };
 
-const ItemSettings = () => {
+const DeleteItem = () => {
 
     const { id } = useLocalSearchParams();
     const router = useRouter();
 
-    const getItemById = useListItemStore((state) => state.getItemById);
-    const updateItem = useListItemStore((state) => state.updateItem);
+    const getItemById = useListItemStore((state) => state.getItemById)
+    const removeItem = useListItemStore((state) => state.removeItem)
 
     const [item, setItem] = useState<ItemType | undefined>(undefined);
-    const [newName, setNewName] = useState<string>("");
-    const [formPlaceHolder, setFormPlaceHolder] = useState<string>("new item name");
 
     useEffect(() => {
         if (id != null) {
@@ -32,30 +29,20 @@ const ItemSettings = () => {
             let newItem = getItemById(id);
             if (newItem) {
                 setItem(newItem);
-                setNewName(newItem.name);
             }
         }
     }, [id])
 
-    const editItem = () => {
-        if (!item) return;
+    const deleteItem = () => {
 
-        const updatedItem: ItemType = {
-            id: item.id,
-            name: newName,
-            listId: item.listId,
-            completed: item.completed,
-        };
-
-        updateItem(updatedItem);
-        setItem(updatedItem);
+        removeItem(item?.id);
 
         if (item?.listId) {
             router.replace({ pathname: "/details/[id]", params: { id: item.listId } });
         }
     }
 
-    const cancelEdit = () => {
+    const cancelDelete = () => {
         if (item?.listId) {
             router.replace({ pathname: "/details/[id]", params: { id: item.listId } });
         }
@@ -69,27 +56,28 @@ const ItemSettings = () => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.formContainer}>
-                <Text style={styles.title}>Edit Item</Text>
+                <Text style={styles.title}>Delete Item</Text>
                 <View style={styles.titleContainer}>
-                    <View style={styles.formInputContainer}>
-                        <FormTextInput
-                            onChangeHandler={setNewName}
-                            inputValue={newName}
-                            formPlaceHolder={formPlaceHolder}
-                        />
+                    <View style={styles.textContainer}>
+                        <Text style={styles.text}>
+                            Are you sure you want to delete the following item:
+                        </Text>
+                        <Text style={[styles.text, styles.textItem]}>
+                            {item?.name}
+                        </Text>
                     </View>
                 </View>
                 <View style={styles.btnContainer}>
                     <TouchableOpacity
                         style={[styles.btn, styles.btnEdit]}
-                        onPress={editItem}
+                        onPress={deleteItem}
                     >
-                        <Feather name="edit" size={22} color="#E9DCC9" />
-                        <Text style={styles.cardText}>Edit Item</Text>
+                        <AntDesign name="checkcircle" size={18} color="#E9DCC9" />
+                        <Text style={styles.cardText}>Yes</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={[styles.btn, styles.btnCancel]}
-                        onPress={cancelEdit}
+                        onPress={cancelDelete}
                     >
                         <MaterialIcons name="cancel" size={22} color="#E9DCC9" />
                         <Text style={styles.cardText}>Cancel</Text>
@@ -100,7 +88,7 @@ const ItemSettings = () => {
     )
 }
 
-export default ItemSettings
+export default DeleteItem
 
 const styles = StyleSheet.create({
     container: {
@@ -118,8 +106,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 18,
         borderRadius: 10,
         width: "100%",
+        elevation: 3,
     },
-    formInputContainer: {
+    textContainer: {
         width: "100%",
         justifyContent: "center",
         alignItems: "center",
@@ -135,7 +124,18 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         fontSize: 22,
         fontWeight: "bold",
-        marginBottom: 15,
+        marginBottom: 10,
+    },
+    text: {
+        color: "#0A3A40",
+        fontSize: 18,
+        fontWeight: "bold",
+        textAlign: "center",
+        paddingVertical: 4,
+    },
+    textItem: {
+        color: "#E9DCC9",
+        fontSize: 20
     },
     cardText: {
         fontSize: 17,
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
         marginVertical: 4,
         marginHorizontal: 4,
         borderRadius: 4,
-        elevation: 2,
+        elevation: 3,
     },
     btnEdit: {
         backgroundColor: "#0a3a40",
