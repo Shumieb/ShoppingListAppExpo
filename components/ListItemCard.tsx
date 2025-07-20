@@ -14,10 +14,16 @@ interface ItemType {
 };
 
 interface CardProps {
-    item: ItemType
+    item: ItemType;
+    setEditModalVisible: (visible: boolean) => void;
+    setItemToEdit: (item: ItemType) => void;
 }
 
-const ListItemCard = ({ item }: CardProps) => {
+const ListItemCard = ({
+    item,
+    setEditModalVisible,
+    setItemToEdit
+}: CardProps) => {
 
     const toggleItemCompleted = useListItemStore((state) => state.toggleItemCompleted)
 
@@ -29,7 +35,8 @@ const ListItemCard = ({ item }: CardProps) => {
     }
 
     const handleEditItem = () => {
-        router.push({ pathname: "/itemSettings/[id]", params: { id: item.id } })
+        setItemToEdit(item)
+        setEditModalVisible(true)
     }
 
     const handleDeleteItem = () => {

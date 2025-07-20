@@ -1,5 +1,6 @@
 import AddNameModal from '@/components/AddNameModal'
 import AddNewListItemBtn from '@/components/AddNewListItemBtn'
+import EditNameModal from '@/components/EditNameModal'
 import ListItemCard from '@/components/ListItemCard'
 import NoSelectedListComponent from '@/components/NoSelectedListComponent'
 import useListItemStore from '@/stores/listItemStore'
@@ -22,13 +23,16 @@ const ShoppingListDetails = () => {
 
   const [title, setTitle] = useState<string | undefined>("Default");
   const [displayList, setDisplayList] = useState<ItemType[]>([]);
-  const [modalVisible, setModalVisible] = useState<boolean>(false)
+  const [addModalVisible, setAddModalVisible] = useState<boolean>(false)
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [itemToEdit, setItemToEdit] = useState<ItemType | null>(null)
 
   const getShoppingListById = useShoppingListStore((state) => state.getShoppingListById)
 
   const getItemsByListId = useListItemStore((state) => state.getItemsByListId)
   const items = useListItemStore((state) => state.items)
   const addNewItem = useListItemStore((state) => state.addNewItem)
+  const updateItem = useListItemStore((state) => state.updateItem)
 
   useEffect(() => {
     if (id != null) {
@@ -58,7 +62,20 @@ const ShoppingListDetails = () => {
       completed: false
     }
     addNewItem(newItem)
-    setModalVisible(false)
+    setAddModalVisible(false)
+  }
+
+  const editItemName = (editedName: string) => {
+    if (itemToEdit) {
+      let updatedItem: ItemType = {
+        id: itemToEdit.id,
+        name: editedName,
+        listId: itemToEdit.listId,
+        completed: itemToEdit.completed
+      }
+      updateItem(updatedItem)
+      setEditModalVisible(false)
+    }
   }
 
   // If no id is provided, show a no selected list component
@@ -76,6 +93,8 @@ const ShoppingListDetails = () => {
         renderItem={({ item }) =>
           <ListItemCard
             item={item}
+            setEditModalVisible={setEditModalVisible}
+            setItemToEdit={setItemToEdit}
           />
         }
         keyExtractor={item => item.id}
@@ -83,18 +102,30 @@ const ShoppingListDetails = () => {
         ListHeaderComponent={
           <View style={styles.btnContainer}>
             <AddNewListItemBtn
-              setModalVisible={setModalVisible}
+              setModalVisible={setAddModalVisible}
               buttonText='New Item'
             />
           </View>
         }
       />
+
+      {/* Add new list name modal */}
       <AddNameModal
-        modalVisible={modalVisible}
+        modalVisible={addModalVisible}
         addName={addItem}
-        setModalVisible={setModalVisible}
+        setModalVisible={setAddModalVisible}
         modalTitle="Add New Item"
         placeHolder='add new item'
+      />
+
+      {/* Edit list name modal */}
+      <EditNameModal
+        modalVisible={editModalVisible}
+        editName={editItemName}
+        setModalVisible={setEditModalVisible}
+        currentNameId={itemToEdit?.id}
+        modalType="item"
+        modalTitle="Edit Item"
       />
     </SafeAreaView>
   )
