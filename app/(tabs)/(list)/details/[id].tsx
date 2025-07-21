@@ -1,5 +1,6 @@
 import AddNameModal from '@/components/AddNameModal'
 import AddNewListItemBtn from '@/components/AddNewListItemBtn'
+import DeleteListItemModal from '@/components/DeleteListItemModal'
 import EditNameModal from '@/components/EditNameModal'
 import ListItemCard from '@/components/ListItemCard'
 import NoSelectedListComponent from '@/components/NoSelectedListComponent'
@@ -25,7 +26,9 @@ const ShoppingListDetails = () => {
   const [displayList, setDisplayList] = useState<ItemType[]>([]);
   const [addModalVisible, setAddModalVisible] = useState<boolean>(false)
   const [editModalVisible, setEditModalVisible] = useState(false);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [itemToEdit, setItemToEdit] = useState<ItemType | null>(null)
+  const [itemTodelete, setItemToDelete] = useState<ItemType | null>(null)
 
   const getShoppingListById = useShoppingListStore((state) => state.getShoppingListById)
 
@@ -33,6 +36,7 @@ const ShoppingListDetails = () => {
   const items = useListItemStore((state) => state.items)
   const addNewItem = useListItemStore((state) => state.addNewItem)
   const updateItem = useListItemStore((state) => state.updateItem)
+  const removeItem = useListItemStore((state) => state.removeItem)
 
   useEffect(() => {
     if (id != null) {
@@ -78,6 +82,11 @@ const ShoppingListDetails = () => {
     }
   }
 
+  const deleteItem = (id: string) => {
+    removeItem(id)
+    setDeleteModalVisible(false)
+  }
+
   // If no id is provided, show a no selected list component
   if (id == null) {
     return (
@@ -94,7 +103,9 @@ const ShoppingListDetails = () => {
           <ListItemCard
             item={item}
             setEditModalVisible={setEditModalVisible}
+            setDeleteModalVisible={setDeleteModalVisible}
             setItemToEdit={setItemToEdit}
+            setItemToDelete={setItemToDelete}
           />
         }
         keyExtractor={item => item.id}
@@ -109,7 +120,7 @@ const ShoppingListDetails = () => {
         }
       />
 
-      {/* Add new list name modal */}
+      {/* Add new Item name modal */}
       <AddNameModal
         modalVisible={addModalVisible}
         addName={addItem}
@@ -118,7 +129,7 @@ const ShoppingListDetails = () => {
         placeHolder='add new item'
       />
 
-      {/* Edit list name modal */}
+      {/* Edit Item name modal */}
       <EditNameModal
         modalVisible={editModalVisible}
         editName={editItemName}
@@ -126,6 +137,16 @@ const ShoppingListDetails = () => {
         currentNameId={itemToEdit?.id}
         modalType="item"
         modalTitle="Edit Item"
+      />
+
+      {/* Delete Item modal */}
+      <DeleteListItemModal
+        modalVisible={deleteModalVisible}
+        setModalVisible={setDeleteModalVisible}
+        modalTitle="Delete Item"
+        deleteListItem={deleteItem}
+        itemTodelete={itemTodelete}
+        modelType="item"
       />
     </SafeAreaView>
   )

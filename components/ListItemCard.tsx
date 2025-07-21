@@ -2,7 +2,6 @@ import useListItemStore from '@/stores/listItemStore'
 import Feather from '@expo/vector-icons/Feather'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import Checkbox from 'expo-checkbox'
-import { router } from 'expo-router'
 import { useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
@@ -16,13 +15,17 @@ interface ItemType {
 interface CardProps {
     item: ItemType;
     setEditModalVisible: (visible: boolean) => void;
+    setDeleteModalVisible: (visible: boolean) => void;
     setItemToEdit: (item: ItemType) => void;
+    setItemToDelete: (item: ItemType) => void;
 }
 
 const ListItemCard = ({
     item,
     setEditModalVisible,
-    setItemToEdit
+    setItemToEdit,
+    setDeleteModalVisible,
+    setItemToDelete
 }: CardProps) => {
 
     const toggleItemCompleted = useListItemStore((state) => state.toggleItemCompleted)
@@ -40,7 +43,8 @@ const ListItemCard = ({
     }
 
     const handleDeleteItem = () => {
-        router.push({ pathname: "/deleteItem/[id]", params: { id: item.id } })
+        setItemToDelete(item)
+        setDeleteModalVisible(true)
     };
 
     return (
