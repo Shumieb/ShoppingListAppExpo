@@ -7,12 +7,15 @@ import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import FormTextInput from './FormTextInput';
 
 interface modalComponentProps {
-    modalVisible: boolean;
-    editName: (name: string) => void;
-    setModalVisible: (visible: boolean) => void;
-    currentNameId?: string;
-    modalType: "list" | "item";
-    modalTitle: string;
+    modalVisible: boolean
+    editName: (name: string) => void
+    setModalVisible: (visible: boolean) => void
+    currentNameId?: string
+    modalType: "list" | "item"
+    modalTitle: string
+    inputError: boolean
+    inputErrorMsg: string
+    removeErrorMsg: () => void
 }
 
 const EditNameModal = ({
@@ -22,6 +25,9 @@ const EditNameModal = ({
     currentNameId = "",
     modalType,
     modalTitle,
+    inputError,
+    inputErrorMsg,
+    removeErrorMsg,
 }: modalComponentProps) => {
 
     const getShoppingListById = useShoppingListStore((state) => state.getShoppingListById)
@@ -63,7 +69,16 @@ const EditNameModal = ({
                             formPlaceHolder="New list name"
                             bgColor="#0A3A40"
                             textColor="#E9DCC9"
+                            onFocusHandler={removeErrorMsg}
                         />
+                        {
+                            inputError &&
+                            (
+                                <View style={styles.errorMsgContainer}>
+                                    <Text style={styles.errorMsg}>{inputErrorMsg}</Text>
+                                </View>
+                            )
+                        }
                     </View>
                     <View style={styles.btnContainer}>
                         <TouchableOpacity
@@ -160,4 +175,13 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         marginTop: 10,
     },
+    errorMsgContainer: {
+        marginTop: 20
+    },
+    errorMsg: {
+        fontSize: 18,
+        color: "#f6c2b2ff",
+        fontStyle: "italic",
+        textAlign: "center"
+    }
 });

@@ -25,6 +25,8 @@ const ItemDetails = () => {
     const [item, setItem] = useState<ItemType | undefined>(undefined);
     const [newName, setNewName] = useState<string>("");
     const [formPlaceHolder, setFormPlaceHolder] = useState<string>("new item name");
+    const [inputError, setInputError] = useState<boolean>(false)
+    const [inputErrorMsg, setInputErrorMsg] = useState<string>("")
 
     useEffect(() => {
         if (id != null) {
@@ -55,6 +57,13 @@ const ItemDetails = () => {
         }
     }
 
+    const removeErrorMsg = () => {
+        if (inputError) {
+            setInputErrorMsg("")
+            setInputError(false)
+        }
+    }
+
     const cancelEdit = () => {
         if (item?.listId) {
             router.replace({ pathname: "/details/[id]", params: { id: item.listId } });
@@ -76,7 +85,16 @@ const ItemDetails = () => {
                             onChangeHandler={setNewName}
                             inputValue={newName}
                             formPlaceHolder={formPlaceHolder}
+                            onFocusHandler={removeErrorMsg}
                         />
+                        {
+                            inputError &&
+                            (
+                                <View style={styles.errorMsgContainer}>
+                                    <Text style={styles.errorMsg}>{inputErrorMsg}</Text>
+                                </View>
+                            )
+                        }
                     </View>
                 </View>
                 <View style={styles.btnContainer}>
@@ -172,4 +190,13 @@ const styles = StyleSheet.create({
         backgroundColor: "#9e3312ff",
         width: "45%",
     },
+    errorMsgContainer: {
+        marginTop: 20
+    },
+    errorMsg: {
+        fontSize: 18,
+        color: "#f6c2b2ff",
+        fontStyle: "italic",
+        textAlign: "center"
+    }
 })

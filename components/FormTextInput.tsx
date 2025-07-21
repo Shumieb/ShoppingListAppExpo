@@ -7,6 +7,7 @@ interface formTextInputProps {
   bgColor?: string;
   textColor?: string;
   placeholderTextColor?: string;
+  onFocusHandler: () => void
 }
 
 const FormTextInput = ({
@@ -16,6 +17,7 @@ const FormTextInput = ({
   bgColor = "#E9DCC9",
   textColor = "#0A3A40",
   placeholderTextColor = "#848787ff",
+  onFocusHandler,
 }: formTextInputProps
 ) => {
   return (
@@ -25,6 +27,7 @@ const FormTextInput = ({
       value={inputValue}
       placeholder={formPlaceHolder}
       placeholderTextColor={placeholderTextColor}
+      onTouchStart={onFocusHandler}
     />
   )
 }

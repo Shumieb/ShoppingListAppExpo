@@ -15,8 +15,16 @@ const ShoppingLists = () => {
   const addNewShoppingList = useShoppingListStore((state) => state.addNewShoppingList)
 
   const [modalVisible, setModalVisible] = useState<boolean>(false)
+  const [inputError, setInputError] = useState<boolean>(false)
+  const [inputErrorMsg, setInputErrorMsg] = useState<string>("")
 
   const addName = (newName: string) => {
+    if (newName.trim().length <= 0) {
+      setInputErrorMsg("Please enter an Shopping List name")
+      setInputError(true)
+      return
+    }
+
     let newShoppingList = {
       id: Math.random().toString(36).substring(2, 15),
       name: newName
@@ -24,6 +32,18 @@ const ShoppingLists = () => {
     // add to shopping list
     addNewShoppingList(newShoppingList);
     setModalVisible(false)
+
+    if (inputError) {
+      setInputErrorMsg("")
+      setInputError(false)
+    }
+  }
+
+  const removeErrorMsg = () => {
+    if (inputError) {
+      setInputErrorMsg("")
+      setInputError(false)
+    }
   }
 
   return (
@@ -58,6 +78,9 @@ const ShoppingLists = () => {
         setModalVisible={setModalVisible}
         modalTitle="Add New Shopping List"
         placeHolder='new shopping list'
+        inputError={inputError}
+        inputErrorMsg={inputErrorMsg}
+        removeErrorMsg={removeErrorMsg}
       />
     </SafeAreaView>
   )

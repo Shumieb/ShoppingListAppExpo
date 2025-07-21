@@ -23,10 +23,12 @@ const ListDetails = () => {
     const getItemCountByListId = useListItemStore((state) => state.getItemCountByListId)
     const items = useListItemStore((state) => state.items)
 
-    const [title, setTitle] = useState<string | undefined>("Default");
-    const [itemCount, setItemCount] = useState<number>(0);
-    const [editModalVisible, setEditModalVisible] = useState(false);
-    const [unsuccessfulDelete, setUnsuccessfulDelete] = useState(false);
+    const [title, setTitle] = useState<string | undefined>("Default")
+    const [itemCount, setItemCount] = useState<number>(0)
+    const [editModalVisible, setEditModalVisible] = useState(false)
+    const [unsuccessfulDelete, setUnsuccessfulDelete] = useState(false)
+    const [inputError, setInputError] = useState<boolean>(false)
+    const [inputErrorMsg, setInputErrorMsg] = useState<string>("")
 
     useEffect(() => {
         if (id != null) {
@@ -59,6 +61,11 @@ const ListDetails = () => {
     }
 
     const editListName = (newName: string) => {
+        if (newName.trim().length <= 0) {
+            setInputErrorMsg("Please enter an Shopping List name")
+            setInputError(true)
+            return
+        }
         let updatedShoppingList = {
             id: id as string,
             name: newName,
@@ -66,6 +73,7 @@ const ListDetails = () => {
         updateShoppingList(updatedShoppingList);
         setTitle(newName);
         setEditModalVisible(!editModalVisible);
+        removeErrorMsg()
     }
 
     const deleteList = () => {
@@ -75,6 +83,13 @@ const ListDetails = () => {
             router.replace("/shoppingLists");
         } else {
             setUnsuccessfulDelete(!unsuccessfulDelete);
+        }
+    }
+
+    const removeErrorMsg = () => {
+        if (inputError) {
+            setInputErrorMsg("")
+            setInputError(false)
         }
     }
 
@@ -128,6 +143,9 @@ const ListDetails = () => {
                 currentNameId={id as string}
                 modalType="list"
                 modalTitle="Edit List Name"
+                inputError={inputError}
+                inputErrorMsg={inputErrorMsg}
+                removeErrorMsg={removeErrorMsg}
             />
 
             {/* Delete unsuccessful modal */}

@@ -23,17 +23,19 @@ interface ItemType {
 
 const ShoppingListDetails = () => {
 
-  const { id } = useLocalSearchParams();
+  const { id } = useLocalSearchParams()
 
-  const [title, setTitle] = useState<string | undefined>("Default");
-  const [displayList, setDisplayList] = useState<ItemType[]>([]);
+  const [title, setTitle] = useState<string | undefined>("Default")
+  const [displayList, setDisplayList] = useState<ItemType[]>([])
   const [addModalVisible, setAddModalVisible] = useState<boolean>(false)
-  const [editModalVisible, setEditModalVisible] = useState(false);
-  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
-  const [clearListModalVisible, setClearListModalVisible] = useState(false);
+  const [editModalVisible, setEditModalVisible] = useState<boolean>(false)
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false)
+  const [clearListModalVisible, setClearListModalVisible] = useState(false)
   const [itemToEdit, setItemToEdit] = useState<ItemType | null>(null)
   const [itemTodelete, setItemToDelete] = useState<ItemType | null>(null)
-  const [itemCount, setItemCount] = useState<number>(0);
+  const [itemCount, setItemCount] = useState<number>(0)
+  const [inputError, setInputError] = useState<boolean>(false)
+  const [inputErrorMsg, setInputErrorMsg] = useState<string>("")
 
   const getShoppingListById = useShoppingListStore((state) => state.getShoppingListById)
   const getItemCountByListId = useListItemStore((state) => state.getItemCountByListId)
@@ -70,17 +72,31 @@ const ShoppingListDetails = () => {
   }, [items])
 
   const addItem = (newName: string) => {
+    if (newName.trim().length <= 0) {
+      setInputErrorMsg("Please enter an item name")
+      setInputError(true)
+      return
+    }
+
     let newItem: ItemType = {
       id: Math.random().toString(36).substring(2, 15),
       name: newName,
       listId: id as string,
       completed: false
     }
+
     addNewItem(newItem)
     setAddModalVisible(false)
+    removeErrorMsg()
   }
 
   const editItemName = (editedName: string) => {
+    if (editedName.trim().length <= 0) {
+      setInputErrorMsg("Please enter an item name")
+      setInputError(true)
+      return
+    }
+
     if (itemToEdit) {
       let updatedItem: ItemType = {
         id: itemToEdit.id,
@@ -90,7 +106,10 @@ const ShoppingListDetails = () => {
       }
       updateItem(updatedItem)
       setEditModalVisible(false)
+      removeErrorMsg()
     }
+
+    removeErrorMsg()
   }
 
   const deleteItem = (id: string) => {
@@ -101,6 +120,13 @@ const ShoppingListDetails = () => {
   const clearList = (id: string) => {
     deleteAllItemsFromList(id);
     setClearListModalVisible(false)
+  }
+
+  const removeErrorMsg = () => {
+    if (inputError) {
+      setInputErrorMsg("")
+      setInputError(false)
+    }
   }
 
   // If no id is provided, show a no selected list component
@@ -166,6 +192,9 @@ const ShoppingListDetails = () => {
         setModalVisible={setAddModalVisible}
         modalTitle="Add New Item"
         placeHolder='add new item'
+        inputError={inputError}
+        inputErrorMsg={inputErrorMsg}
+        removeErrorMsg={removeErrorMsg}
       />
 
       {/* Edit Item name modal */}
@@ -176,6 +205,9 @@ const ShoppingListDetails = () => {
         currentNameId={itemToEdit?.id}
         modalType="item"
         modalTitle="Edit Item"
+        inputError={inputError}
+        inputErrorMsg={inputErrorMsg}
+        removeErrorMsg={removeErrorMsg}
       />
 
       {/* Delete Item modal */}

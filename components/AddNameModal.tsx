@@ -4,11 +4,14 @@ import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import FormTextInput from './FormTextInput';
 
 interface modalComponentProps {
-    modalVisible: boolean;
-    addName: (name: string) => void;
-    setModalVisible: (visible: boolean) => void;
-    modalTitle: string;
-    placeHolder: string;
+    modalVisible: boolean
+    addName: (name: string) => void
+    setModalVisible: (visible: boolean) => void
+    modalTitle: string
+    placeHolder: string
+    inputError: boolean
+    inputErrorMsg: string
+    removeErrorMsg: () => void
 }
 
 const AddNameModal = ({
@@ -16,7 +19,10 @@ const AddNameModal = ({
     addName,
     setModalVisible,
     modalTitle,
-    placeHolder
+    placeHolder,
+    inputError,
+    inputErrorMsg,
+    removeErrorMsg,
 }: modalComponentProps) => {
 
     const [newName, setNewName] = useState("");
@@ -39,7 +45,16 @@ const AddNameModal = ({
                             formPlaceHolder={placeHolder}
                             bgColor="#0A3A40"
                             textColor="#E9DCC9"
+                            onFocusHandler={removeErrorMsg}
                         />
+                        {
+                            inputError &&
+                            (
+                                <View style={styles.errorMsgContainer}>
+                                    <Text style={styles.errorMsg}>{inputErrorMsg}</Text>
+                                </View>
+                            )
+                        }
                     </View>
                     <View style={styles.btnContainer}>
                         <TouchableOpacity
@@ -140,4 +155,13 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         marginTop: 10,
     },
+    errorMsgContainer: {
+        marginTop: 20
+    },
+    errorMsg: {
+        fontSize: 18,
+        color: "#f6c2b2ff",
+        fontStyle: "italic",
+        textAlign: "center"
+    }
 });
