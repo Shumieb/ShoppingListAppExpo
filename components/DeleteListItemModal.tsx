@@ -9,13 +9,18 @@ interface ItemType {
     completed: boolean
 };
 
+interface ListType {
+    id: string,
+    name: string,
+}
+
 interface PropTypes {
     modalVisible: boolean;
     setModalVisible: (visible: boolean) => void;
     deleteListItem: (id: string) => void
     modalTitle: string,
     modelType: string,
-    itemTodelete: ItemType | null,
+    itemTodelete: ItemType | ListType | null,
 }
 
 const DeleteListItemModal = ({

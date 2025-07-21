@@ -1,3 +1,4 @@
+import DeleteListItemModal from '@/components/DeleteListItemModal';
 import EditNameModal from '@/components/EditNameModal';
 import FeedBackModal from '@/components/FeedBackTextModal';
 import NoSelectedListComponent from '@/components/NoSelectedListComponent';
@@ -9,6 +10,11 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
+interface ListType {
+    id: string,
+    name: string,
+}
 
 const ListDetails = () => {
 
@@ -24,27 +30,35 @@ const ListDetails = () => {
     const items = useListItemStore((state) => state.items)
 
     const [title, setTitle] = useState<string | undefined>("Default")
+    const [list, setCurrentList] = useState<ListType | null>(null)
     const [itemCount, setItemCount] = useState<number>(0)
     const [editModalVisible, setEditModalVisible] = useState(false)
     const [unsuccessfulDelete, setUnsuccessfulDelete] = useState(false)
     const [inputError, setInputError] = useState<boolean>(false)
     const [inputErrorMsg, setInputErrorMsg] = useState<string>("")
+    const [deleteModalVisible, setDeleteModalVisible] = useState(false)
 
     useEffect(() => {
         if (id != null) {
             // set the page title
             let newTitle = getShoppingListById(id);
-            if (newTitle?.name) setTitle(newTitle?.name);
+            if (newTitle) {
+                setCurrentList(newTitle)
+                setTitle(newTitle?.name)
+            }
 
             // set the item count
             let count = getItemCountByListId(id);
-            if (count != null) setItemCount(count);
+            count != null && setItemCount(count);
         }
     }, [id])
 
     useEffect(() => {
         let newTitle = getShoppingListById(id);
-        if (newTitle?.name) setTitle(newTitle?.name);
+        if (newTitle) {
+            setCurrentList(newTitle)
+            setTitle(newTitle?.name)
+        }
     }, [shoppingLists])
 
     useEffect(() => {
@@ -128,7 +142,7 @@ const ListDetails = () => {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={[styles.btn, styles.btnDelete]}
-                    onPress={deleteList}
+                    onPress={() => setDeleteModalVisible(true)}
                 >
                     <Ionicons name="trash" size={22} color="#E9DCC9" />
                     <Text style={styles.cardText}>Delete List</Text>
@@ -146,6 +160,15 @@ const ListDetails = () => {
                 inputError={inputError}
                 inputErrorMsg={inputErrorMsg}
                 removeErrorMsg={removeErrorMsg}
+            />
+
+            <DeleteListItemModal
+                modalVisible={deleteModalVisible}
+                setModalVisible={setDeleteModalVisible}
+                modalTitle="Delete Shopping List"
+                modelType="Shopping List"
+                deleteListItem={deleteList}
+                itemTodelete={list}
             />
 
             {/* Delete unsuccessful modal */}
