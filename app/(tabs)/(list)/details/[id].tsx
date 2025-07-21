@@ -1,5 +1,7 @@
 import AddNameModal from '@/components/AddNameModal'
 import AddNewListItemBtn from '@/components/AddNewListItemBtn'
+import ClearListBtn from '@/components/ClearListBtn'
+import ClearListModal from '@/components/ClearListModal'
 import DeleteListItemModal from '@/components/DeleteListItemModal'
 import EditNameModal from '@/components/EditNameModal'
 import ListItemCard from '@/components/ListItemCard'
@@ -27,6 +29,7 @@ const ShoppingListDetails = () => {
   const [addModalVisible, setAddModalVisible] = useState<boolean>(false)
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [clearListModalVisible, setClearListModalVisible] = useState(false);
   const [itemToEdit, setItemToEdit] = useState<ItemType | null>(null)
   const [itemTodelete, setItemToDelete] = useState<ItemType | null>(null)
 
@@ -37,6 +40,7 @@ const ShoppingListDetails = () => {
   const addNewItem = useListItemStore((state) => state.addNewItem)
   const updateItem = useListItemStore((state) => state.updateItem)
   const removeItem = useListItemStore((state) => state.removeItem)
+  const deleteAllItemsFromList = useListItemStore((state) => state.deleteAllItemsFromList)
 
   useEffect(() => {
     if (id != null) {
@@ -87,6 +91,11 @@ const ShoppingListDetails = () => {
     setDeleteModalVisible(false)
   }
 
+  const clearList = (id: string) => {
+    deleteAllItemsFromList(id);
+    setClearListModalVisible(false)
+  }
+
   // If no id is provided, show a no selected list component
   if (id == null) {
     return (
@@ -111,10 +120,17 @@ const ShoppingListDetails = () => {
         keyExtractor={item => item.id}
         style={styles.listContainer}
         ListHeaderComponent={
-          <View style={styles.btnContainer}>
+          <View style={styles.headerContainer}>
             <AddNewListItemBtn
               setModalVisible={setAddModalVisible}
               buttonText='New Item'
+            />
+          </View>
+        }
+        ListFooterComponent={
+          <View style={styles.footerContainer}>
+            <ClearListBtn
+              setModalVisible={setClearListModalVisible}
             />
           </View>
         }
@@ -148,6 +164,15 @@ const ShoppingListDetails = () => {
         itemTodelete={itemTodelete}
         modelType="item"
       />
+
+      <ClearListModal
+        modalVisible={clearListModalVisible}
+        setModalVisible={setClearListModalVisible}
+        modalTitle="Clear Shopping List"
+        clearList={clearList}
+        listToDeleteId={id as string}
+        listName={title}
+      />
     </SafeAreaView>
   )
 }
@@ -180,11 +205,17 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold"
   },
-  btnContainer: {
+  headerContainer: {
     width: "100%",
     alignItems: "flex-end",
     paddingHorizontal: 2,
     marginBottom: 18
+  },
+  footerContainer: {
+    width: "100%",
+    alignItems: "center",
+    paddingHorizontal: 2,
+    marginTop: 18
   },
   btn: {
     justifyContent: "center",

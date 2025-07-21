@@ -31,7 +31,6 @@ const EditNameModal = ({
     const [newName, setNewName] = useState("");
 
     useEffect(() => {
-        console.log("currentNameId: ", currentNameId);
         let title;
         if (currentNameId) {
             if (modalType === "item") {

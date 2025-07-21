@@ -31,6 +31,8 @@ const useListItemStore = create((set) => ({
       item.id === id ? { ...item, completed: !item.completed } : item
     )
   })),
+  // Function to remove all items from a certain shopping list
+  deleteAllItemsFromList: (id) => set((state) => ({ items: state.items.filter((item) => item.listId !== id) })),
 }));
 
 export default useListItemStore;

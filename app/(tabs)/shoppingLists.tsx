@@ -5,6 +5,7 @@ import ListCard from '@/components/ListCard'
 
 import AddNameModal from '@/components/AddNameModal'
 import AddNewListItemBtn from '@/components/AddNewListItemBtn'
+import EmptyListComponent from '@/components/EmptyListComponent'
 import useShoppingListStore from '@/stores/shoppingListsStore'
 import { useState } from 'react'
 
@@ -37,6 +38,14 @@ const ShoppingLists = () => {
             <AddNewListItemBtn
               setModalVisible={setModalVisible}
               buttonText='New List'
+            />
+          </View>
+        }
+        ListEmptyComponent={
+          <View style={styles.centerContainer}>
+            <EmptyListComponent
+              ListType="Shopping List"
+              buttonText="New List"
             />
           </View>
         }
@@ -76,4 +85,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 2,
     marginBottom: 18
   },
+  centerContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#428188ff",
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    marginVertical: 10,
+    borderRadius: 10,
+  }
 })
