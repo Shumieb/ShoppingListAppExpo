@@ -21,7 +21,7 @@ const TabLayout = () => {
                     elevation: 0,
                     height: 90
                 },
-                headerTintColor: '#fff',
+                headerTintColor: '#E9DCC9',
                 headerTitleStyle: {
                     fontWeight: 'bold',
                 },

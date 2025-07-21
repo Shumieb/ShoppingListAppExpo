@@ -9,9 +9,10 @@ import ListItemCard from '@/components/ListItemCard'
 import NoSelectedListComponent from '@/components/NoSelectedListComponent'
 import useListItemStore from '@/stores/listItemStore'
 import useShoppingListStore from '@/stores/shoppingListsStore'
-import { useLocalSearchParams } from 'expo-router'
+import Ionicons from '@expo/vector-icons/Ionicons'
+import { router, useLocalSearchParams } from 'expo-router'
 import { useEffect, useState } from 'react'
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 interface ItemType {
@@ -106,9 +107,7 @@ const ShoppingListDetails = () => {
       }
       updateItem(updatedItem)
       setEditModalVisible(false)
-      removeErrorMsg()
     }
-
     removeErrorMsg()
   }
 
@@ -129,6 +128,13 @@ const ShoppingListDetails = () => {
     }
   }
 
+  const showShoppingListSettings = () => {
+    if (id != null) {
+      const validId = Array.isArray(id) ? id[0] : id;
+      router.replace({ pathname: "/listDetails/[id]", params: { id: validId } });
+    }
+  }
+
   // If no id is provided, show a no selected list component
   if (id == null) {
     return (
@@ -138,7 +144,18 @@ const ShoppingListDetails = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
+      {/* Page Title */}
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>{title}</Text>
+        <TouchableOpacity
+          onPress={showShoppingListSettings}
+          style={styles.settingsBtn}
+        >
+          <Ionicons name="settings" size={21} color="#E9DCC9" />
+        </TouchableOpacity>
+      </View>
+
+      {/* list Items */}
       <FlatList
         data={displayList}
         renderItem={({ item }) =>
@@ -244,6 +261,11 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     backgroundColor: "#0A3A40",
   },
+  titleContainer: {
+    paddingBottom: 8,
+    position: "relative",
+    width: "100%"
+  },
   listContainer: {
     flex: 1,
     width: "100%",
@@ -303,5 +325,14 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     borderRadius: 10,
     marginTop: 20
+  },
+  settingsBtn: {
+    padding: 8,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "flex-end",
+    position: "absolute",
+    right: 3,
+    bottom: 1,
   }
 })
