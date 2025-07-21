@@ -4,6 +4,7 @@ import ClearListBtn from '@/components/ClearListBtn'
 import ClearListModal from '@/components/ClearListModal'
 import DeleteListItemModal from '@/components/DeleteListItemModal'
 import EditNameModal from '@/components/EditNameModal'
+import EmptyListComponent from '@/components/EmptyListComponent'
 import ListItemCard from '@/components/ListItemCard'
 import NoSelectedListComponent from '@/components/NoSelectedListComponent'
 import useListItemStore from '@/stores/listItemStore'
@@ -32,8 +33,10 @@ const ShoppingListDetails = () => {
   const [clearListModalVisible, setClearListModalVisible] = useState(false);
   const [itemToEdit, setItemToEdit] = useState<ItemType | null>(null)
   const [itemTodelete, setItemToDelete] = useState<ItemType | null>(null)
+  const [itemCount, setItemCount] = useState<number>(0);
 
   const getShoppingListById = useShoppingListStore((state) => state.getShoppingListById)
+  const getItemCountByListId = useListItemStore((state) => state.getItemCountByListId)
 
   const getItemsByListId = useListItemStore((state) => state.getItemsByListId)
   const items = useListItemStore((state) => state.items)
@@ -60,6 +63,10 @@ const ShoppingListDetails = () => {
     // set the list to display
     let list: ItemType[] = getItemsByListId(id);
     setDisplayList(list);
+
+    // set the item count
+    let count = getItemCountByListId(id);
+    if (count != null) setItemCount(count);
   }, [items])
 
   const addItem = (newName: string) => {
@@ -125,13 +132,29 @@ const ShoppingListDetails = () => {
               setModalVisible={setAddModalVisible}
               buttonText='New Item'
             />
+            {
+              itemCount <= 0 &&
+              (
+                <View style={styles.centerContainer}>
+                  <EmptyListComponent
+                    ListType={`Items in ${title}`}
+                    buttonText="New Item"
+                  />
+                </View>
+              )
+            }
           </View>
         }
         ListFooterComponent={
           <View style={styles.footerContainer}>
-            <ClearListBtn
-              setModalVisible={setClearListModalVisible}
-            />
+            {
+              itemCount !== 0 &&
+              (
+                <ClearListBtn
+                  setModalVisible={setClearListModalVisible}
+                />
+              )
+            }
           </View>
         }
       />
@@ -237,5 +260,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     paddingLeft: 8,
+  },
+  centerContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: "80%",
+    backgroundColor: "#428188ff",
+    paddingHorizontal: 10,
+    marginVertical: 10,
+    marginHorizontal: 10,
+    borderRadius: 10,
+    marginTop: 20
   }
 })
