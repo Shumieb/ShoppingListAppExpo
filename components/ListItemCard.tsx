@@ -4,15 +4,9 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import Checkbox from 'expo-checkbox'
 import { useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ItemType } from '@/util/entityTypes'
 
-interface ItemType {
-    id: string,
-    name: string,
-    listId: string,
-    completed: boolean
-};
-
-interface CardProps {
+interface PropTypes {
     item: ItemType;
     setEditModalVisible: (visible: boolean) => void;
     setDeleteModalVisible: (visible: boolean) => void;
@@ -26,7 +20,7 @@ const ListItemCard = ({
     setItemToEdit,
     setDeleteModalVisible,
     setItemToDelete
-}: CardProps) => {
+}: PropTypes) => {
 
     const toggleItemCompleted = useListItemStore((state) => state.toggleItemCompleted)
 

@@ -2,12 +2,12 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-interface CardProps {
+interface PropTypes {
     title: string,
     id: string
 }
 
-const ListCard = ({ title, id }: CardProps) => {
+const ListCard = ({ title, id }: PropTypes) => {
 
     const router = useRouter();
 

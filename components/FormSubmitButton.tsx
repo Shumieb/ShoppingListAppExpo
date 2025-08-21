@@ -1,12 +1,12 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-interface formSubmitButtonProps {
+interface PropTypes {
   formBtnText: string;
   handleSubmit: () => void;
 }
 
-const FormSubmitButton = ({ formBtnText, handleSubmit }: formSubmitButtonProps) => {
+const FormSubmitButton = ({ formBtnText, handleSubmit }: PropTypes) => {
   return (
     <TouchableOpacity
       style={styles.formBtn}

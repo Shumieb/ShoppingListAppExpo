@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import FormTextInput from './FormTextInput';
 
-interface modalComponentProps {
+interface PropTypes {
     modalVisible: boolean
     addName: (name: string) => void
     setModalVisible: (visible: boolean) => void
@@ -23,7 +23,7 @@ const AddNameModal = ({
     inputError,
     inputErrorMsg,
     removeErrorMsg,
-}: modalComponentProps) => {
+}: PropTypes) => {
 
     const [newName, setNewName] = useState("");
 

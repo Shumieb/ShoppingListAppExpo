@@ -1,6 +1,6 @@
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 
-interface modalComponentProps {
+interface PropTypes {
     modalVisible: boolean;
     setModalVisible: (visible: boolean) => void;
     modalText: string;
@@ -10,7 +10,7 @@ const FeedBackTextModal = ({
     modalVisible,
     setModalVisible,
     modalText
-}: modalComponentProps) => {
+}: PropTypes) => {
     return (
         <Modal
             animationType="slide"

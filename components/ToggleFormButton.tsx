@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-interface toggleFormButtonProps {
+interface PropTypes {
   selectedForm: string;
   toggleForm: (value: string) => void;
   buttonValue: string;
@@ -8,7 +8,7 @@ interface toggleFormButtonProps {
 }
 
 const ToggleFormButton = (
-  { selectedForm, toggleForm, buttonValue, buttonText }: toggleFormButtonProps
+  { selectedForm, toggleForm, buttonValue, buttonText }: PropTypes
 ) => {
   return (
     <TouchableOpacity

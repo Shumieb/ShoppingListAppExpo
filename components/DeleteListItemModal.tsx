@@ -1,18 +1,7 @@
 import AntDesign from '@expo/vector-icons/AntDesign';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-
-interface ItemType {
-    id: string,
-    name: string,
-    listId: string,
-    completed: boolean
-};
-
-interface ListType {
-    id: string,
-    name: string,
-}
+import {ItemType, ListType} from '@/util/entityTypes'
 
 interface PropTypes {
     modalVisible: boolean;

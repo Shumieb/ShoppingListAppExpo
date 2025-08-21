@@ -1,18 +1,14 @@
 import { Picker } from '@react-native-picker/picker';
 import { StyleSheet, View } from 'react-native';
+import {ListType} from '@/util/entityTypes'
 
-interface listType {
-  id: string;
-  name: string;
-}
-
-interface pickerType {
+interface PropTypes {
   selected: string;
   setSelected: (value: string) => void;
-  listToPickFrom: listType[];
+  listToPickFrom: ListType[];
 }
 
-const PickerComponent = ({ selected, setSelected, listToPickFrom }: pickerType) => {
+const PickerComponent = ({ selected, setSelected, listToPickFrom }: PropTypes) => {
 
   return (
     <View style={styles.pickerContainer}>
@@ -27,7 +23,7 @@ const PickerComponent = ({ selected, setSelected, listToPickFrom }: pickerType) 
           style={styles.pickerItem}
         />
         {
-          listToPickFrom.map((list: listType) => (
+          listToPickFrom.map((list: ListType) => (
             <Picker.Item
               key={list.id}
               label={list.name}

@@ -1,6 +1,6 @@
 import { StyleSheet, TextInput } from 'react-native';
 
-interface formTextInputProps {
+interface PropTypes {
   onChangeHandler: (text: string) => void;
   inputValue: string;
   formPlaceHolder: string;
@@ -18,7 +18,7 @@ const FormTextInput = ({
   textColor = "#0A3A40",
   placeholderTextColor = "#848787ff",
   onFocusHandler,
-}: formTextInputProps
+}: PropTypes
 ) => {
   return (
     <TextInput

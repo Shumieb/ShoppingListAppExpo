@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import FormTextInput from './FormTextInput';
 
-interface modalComponentProps {
+interface PropTypes {
     modalVisible: boolean
     editName: (name: string) => void
     setModalVisible: (visible: boolean) => void
@@ -28,7 +28,7 @@ const EditNameModal = ({
     inputError,
     inputErrorMsg,
     removeErrorMsg,
-}: modalComponentProps) => {
+}: PropTypes) => {
 
     const getShoppingListById = useShoppingListStore((state) => state.getShoppingListById)
 
