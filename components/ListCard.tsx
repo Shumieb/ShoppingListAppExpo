@@ -1,15 +1,17 @@
+import { ListType } from '@/util/entityTypes';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface PropTypes {
-    title: string,
-    id: string
+    item: ListType
 }
 
-const ListCard = ({ title, id }: PropTypes) => {
+const ListCard = ({ item }: PropTypes) => {
 
     const router = useRouter();
+    const id = item.id
+    const title = item.name
 
     const showShoppingListDetails = () => {
         router.replace({ pathname: "/details/[id]", params: { id } })

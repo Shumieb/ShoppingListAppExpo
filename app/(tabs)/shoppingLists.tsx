@@ -7,30 +7,54 @@ import AddNameModal from '@/components/AddNameModal'
 import AddNewListItemBtn from '@/components/AddNewListItemBtn'
 import EmptyListComponent from '@/components/EmptyListComponent'
 import useShoppingListStore from '@/stores/shoppingListsStore'
-import { useState } from 'react'
+import { ListType } from '@/util/entityTypes'
+import { useSQLiteContext } from 'expo-sqlite'
+import { useEffect, useState } from 'react'
 
 const ShoppingLists = () => {
 
+  const [listsToDisplay, setListsToDisplay] = useState<ListType[]>([])
+
   const shoppingLists = useShoppingListStore((state) => state.shoppingLists)
   const addNewShoppingList = useShoppingListStore((state) => state.addNewShoppingList)
+  const initializeShoppingLists = useShoppingListStore((state) => state.initializeShoppingLists);
+  const getAllShoppingLists = useShoppingListStore((state) => state.getAllShoppingLists);
 
   const [modalVisible, setModalVisible] = useState<boolean>(false)
   const [inputError, setInputError] = useState<boolean>(false)
   const [inputErrorMsg, setInputErrorMsg] = useState<string>("")
 
-  const addName = (newName: string) => {
+  const myDb = useSQLiteContext();
+
+  useEffect(() => {
+    if (shoppingLists.length > 0) return;
+    async function setup() {
+      initializeShoppingLists(myDb || undefined);
+    }
+    setup();
+
+  }, []);
+
+  useEffect(() => {
+    function fetchShoppingLists() {
+      let list = getAllShoppingLists();
+      if (!list || list.length === 0) return;
+      setListsToDisplay(list);
+      console.log("running fetch")
+      console.log(list.length)
+    }
+    fetchShoppingLists();
+  }, [shoppingLists]);
+
+  const addName = async (newName: string) => {
     if (newName.trim().length <= 0) {
       setInputErrorMsg("Please enter an Shopping List name")
       setInputError(true)
       return
     }
 
-    let newShoppingList = {
-      id: Math.random().toString(36).substring(2, 15),
-      name: newName
-    }
     // add to shopping list
-    addNewShoppingList(newShoppingList);
+    await addNewShoppingList(myDb, newName);
     setModalVisible(false)
 
     if (inputError) {
@@ -49,8 +73,8 @@ const ShoppingLists = () => {
   return (
     <SafeAreaView style={styles.container} edges={["left", "right"]}>
       <FlatList
-        data={shoppingLists}
-        renderItem={({ item }) => <ListCard title={item.name} id={item.id} />}
+        data={listsToDisplay}
+        renderItem={({ item }) => (<ListCard item={item} />)}
         keyExtractor={item => item.id}
         style={styles.listContainer}
         ListHeaderComponent={

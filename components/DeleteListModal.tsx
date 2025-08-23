@@ -1,4 +1,4 @@
-import { ItemType } from '@/util/entityTypes';
+import { ListType } from '@/util/entityTypes';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -6,10 +6,10 @@ import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 interface PropTypes {
     modalVisible: boolean;
     setModalVisible: (visible: boolean) => void;
-    deleteListItem: (id: string) => void
+    deleteList: (id: string) => void
     modalTitle: string,
     modelType: string,
-    itemTodelete: ItemType | null,
+    listTodelete: ListType | null,
 }
 
 const DeleteListItemModal = ({
@@ -17,8 +17,8 @@ const DeleteListItemModal = ({
     setModalVisible,
     modalTitle,
     modelType,
-    deleteListItem,
-    itemTodelete
+    deleteList,
+    listTodelete
 }: PropTypes) => {
 
     return (
@@ -38,14 +38,14 @@ const DeleteListItemModal = ({
                                 Are you sure you want to delete the following {modelType}:
                             </Text>
                             <Text style={[styles.text, styles.textItem]}>
-                                {itemTodelete?.name}
+                                {listTodelete?.name}
                             </Text>
                         </View>
                     </View>
                     <View style={styles.btnContainer}>
                         <TouchableOpacity
                             style={[styles.btn, styles.btnEdit]}
-                            onPress={() => itemTodelete && deleteListItem(itemTodelete.id)}
+                            onPress={() => listTodelete && deleteList(listTodelete.id)}
                         >
                             <AntDesign name="checkcircle" size={18} color="#E9DCC9" />
                             <Text style={styles.cardText}>Yes</Text>

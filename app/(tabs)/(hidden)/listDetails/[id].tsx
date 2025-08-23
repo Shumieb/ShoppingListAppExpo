@@ -1,4 +1,4 @@
-import DeleteListItemModal from '@/components/DeleteListItemModal';
+import DeleteListModal from '@/components/DeleteListModal';
 import EditNameModal from '@/components/EditNameModal';
 import FeedBackModal from '@/components/FeedBackTextModal';
 import NoSelectedListComponent from '@/components/NoSelectedListComponent';
@@ -7,6 +7,7 @@ import useShoppingListStore from '@/stores/shoppingListsStore';
 import Feather from '@expo/vector-icons/Feather';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useSQLiteContext } from 'expo-sqlite';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -20,6 +21,8 @@ const ListDetails = () => {
 
     const { id } = useLocalSearchParams();
     const router = useRouter();
+
+    const myDb = useSQLiteContext();
 
     const getShoppingListById = useShoppingListStore((state) => state.getShoppingListById)
     const updateShoppingList = useShoppingListStore((state) => state.updateShoppingList)
@@ -92,8 +95,8 @@ const ListDetails = () => {
 
     const deleteList = () => {
         if (id == null) return;
-        if (itemCount <= 0) {
-            removeShoppingList(id as string);
+        if (itemCount <= 0 && myDb != null) {
+            removeShoppingList(myDb, id as string);
             router.replace("/shoppingLists");
         } else {
             setUnsuccessfulDelete(!unsuccessfulDelete);
@@ -148,7 +151,6 @@ const ListDetails = () => {
                     <Text style={styles.cardText}>Delete List</Text>
                 </TouchableOpacity>
             </View>
-
             {/* Edit list modal */}
             <EditNameModal
                 modalVisible={editModalVisible}
@@ -161,16 +163,15 @@ const ListDetails = () => {
                 inputErrorMsg={inputErrorMsg}
                 removeErrorMsg={removeErrorMsg}
             />
-
-            <DeleteListItemModal
+            {/* Delete successful modal */}
+            <DeleteListModal
                 modalVisible={deleteModalVisible}
                 setModalVisible={setDeleteModalVisible}
                 modalTitle="Delete Shopping List"
                 modelType="Shopping List"
-                deleteListItem={deleteList}
-                itemTodelete={list}
+                deleteList={deleteList}
+                listTodelete={list}
             />
-
             {/* Delete unsuccessful modal */}
             <FeedBackModal
                 modalVisible={unsuccessfulDelete}
