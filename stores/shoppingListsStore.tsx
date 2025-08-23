@@ -4,10 +4,6 @@ import { SQLiteDatabase } from 'expo-sqlite';
 import { create } from 'zustand';
 import { combine } from 'zustand/middleware';
 
-type StoreState = {
-  shoppingLists: ListType[];
-};
-
 const useShoppingListStore = create(
   combine(
     { shoppingLists: [] as ListType[] },

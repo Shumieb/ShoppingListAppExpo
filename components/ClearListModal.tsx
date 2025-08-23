@@ -5,9 +5,9 @@ import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 interface PropTypes {
     modalVisible: boolean;
     setModalVisible: (visible: boolean) => void;
-    clearList: (id: string) => void
+    clearList: (id: number) => void
     modalTitle: string
-    listToDeleteId: string
+    listToDeleteId: number | undefined
     listName: string | undefined
 }
 

@@ -4,10 +4,6 @@ import { SQLiteDatabase } from 'expo-sqlite';
 import { create } from 'zustand';
 import { combine } from 'zustand/middleware';
 
-type StoreState = {
-  items: ItemType[];
-};
-
 const useListItemStore = create(
   combine(
     { items: [] as ItemType[] },
@@ -82,11 +78,14 @@ const useListItemStore = create(
       },
 
       // Function to toggle the completion status of an item
-      toggleItemCompleted: (id: number) => set((state) => ({
-        items: state.items.map((item: ItemType) =>
-          item.id === id ? { ...item, completed: !item.completed } : item
-        )
-      })),
+      toggleItemCompleted: async (db: SQLiteDatabase, id: number, item: ItemType) => {
+        await updateItem(db, { ...item, completed: !item.completed });
+        set((state) => ({
+          items: state.items.map((item: ItemType) =>
+            item.id === id ? { ...item, completed: !item.completed } : item
+          )
+        }))
+      },
 
       // Function to remove all items from a certain shopping list
       deleteAllItemsFromList: async (db: SQLiteDatabase, id: number) => {

@@ -76,9 +76,9 @@ const ShoppingListDetails = () => {
     }
 
     let newItem: ItemType = {
-      id: Math.random().toString(36).substring(2, 15),
+      id: Math.random(),
       name: newName,
-      listId: id as string,
+      listId: Number(id as string),
       completed: false
     }
     // add the new item to the database
@@ -117,7 +117,7 @@ const ShoppingListDetails = () => {
     removeErrorMsg()
   }
   // function to delete an item
-  const deleteItem = (id: string) => {
+  const deleteItem = (id: number) => {
     // delete the item from the database
     removeListItem(myDb, id)
     // update the local state
@@ -128,7 +128,7 @@ const ShoppingListDetails = () => {
     setDeleteModalVisible(false)
   }
   // function to clear all items from the list
-  const clearList = (id: string) => {
+  const clearList = (id: number) => {
     // delete all items from the database
     deleteAllItemsFromList(myDb, id);
     // update the local state
@@ -182,9 +182,10 @@ const ShoppingListDetails = () => {
             setDeleteModalVisible={setDeleteModalVisible}
             setItemToEdit={setItemToEdit}
             setItemToDelete={setItemToDelete}
+            db={myDb}
           />
         }
-        keyExtractor={item => item.id}
+        keyExtractor={item => (item.id).toString()}
         style={styles.listContainer}
         ListHeaderComponent={
           <View style={styles.headerContainer}>
@@ -260,7 +261,7 @@ const ShoppingListDetails = () => {
         setModalVisible={setClearListModalVisible}
         modalTitle="Clear Shopping List"
         clearList={clearList}
-        listToDeleteId={id as string}
+        listToDeleteId={Number(id as string)}
         listName={title}
       />
     </SafeAreaView>

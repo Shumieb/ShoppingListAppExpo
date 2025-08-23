@@ -26,7 +26,6 @@ const ListDetails = () => {
     const shoppingLists = useShoppingListStore((state) => state.shoppingLists)
 
     const getItemsByShoppingListId = useListItemStore((state) => state.getItemsByShoppingListId)
-    const items = useListItemStore((state) => state.items)
 
     const [title, setTitle] = useState<string | undefined>("Default")
     const [list, setCurrentList] = useState<ListType | null>(null)

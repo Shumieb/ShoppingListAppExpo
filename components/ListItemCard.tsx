@@ -1,8 +1,8 @@
 import useListItemStore from '@/stores/listItemStore';
 import { ItemType } from '@/util/entityTypes';
-import Feather from '@expo/vector-icons/Feather';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { Feather, Ionicons } from '@expo/vector-icons';
 import Checkbox from 'expo-checkbox';
+import { SQLiteDatabase } from 'expo-sqlite';
 import { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -12,6 +12,7 @@ interface PropTypes {
     setDeleteModalVisible: (visible: boolean) => void;
     setItemToEdit: (item: ItemType) => void;
     setItemToDelete: (item: ItemType) => void;
+    db: SQLiteDatabase
 }
 
 const ListItemCard = ({
@@ -19,16 +20,19 @@ const ListItemCard = ({
     setEditModalVisible,
     setItemToEdit,
     setDeleteModalVisible,
-    setItemToDelete
+    setItemToDelete,
+    db
 }: PropTypes) => {
 
     const toggleItemCompleted = useListItemStore((state) => state.toggleItemCompleted)
 
-    const [isChecked, setIsChecked] = useState(item.completed);
+    const [isChecked, setIsChecked] = useState(item.completed ? true : false);
 
     const setChecked = () => {
+        // update local state
         setIsChecked(!isChecked);
-        toggleItemCompleted(item.id);
+        // update database and global state
+        toggleItemCompleted(db, item.id, item);
     }
 
     const handleEditItem = () => {

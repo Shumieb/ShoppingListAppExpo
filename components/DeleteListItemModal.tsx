@@ -6,7 +6,7 @@ import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 interface PropTypes {
     modalVisible: boolean;
     setModalVisible: (visible: boolean) => void;
-    deleteListItem: (id: string) => void
+    deleteListItem: (id: number) => void
     modalTitle: string,
     modelType: string,
     itemTodelete: ItemType | null,
