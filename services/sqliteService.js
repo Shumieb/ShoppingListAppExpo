@@ -38,7 +38,6 @@ export const updateList = async (db, id, newListName) => {
 export const getListById = async (db, id) => {
     try {
         const result = await db.getFirstAsync('SELECT * FROM lists WHERE id = ?', [id]);
-        console.log("Fetched list by id:", result);
         return result;
     } catch (error) {
         console.error("Failed to get shopping list by id", error);

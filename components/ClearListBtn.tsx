@@ -14,7 +14,7 @@ const ClearListBtn = ({
                 style={styles.btn}
                 onPress={() => setModalVisible(true)}
             >
-                <MaterialIcons name="delete" size={22} color="#0A3A40" />
+                <MaterialIcons name="delete" size={22} color="#cbc5c5ff" />
                 <Text style={styles.btnText}>Clear Shopping List</Text>
             </TouchableOpacity>
         </>
@@ -29,17 +29,17 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#f86363ff",
+        backgroundColor: "#8C1F28",
         paddingHorizontal: 2,
         paddingVertical: 6,
         borderRadius: 4,
         fontWeight: "bold",
         width: "70%",
-        borderColor: "#f86363ff",
+        borderColor: "#8C1F28",
         borderWidth: 2
     },
     btnText: {
-        color: "#0A3A40",
+        color: "#cbc5c5ff",
         fontSize: 16,
         fontWeight: "bold",
         paddingLeft: 8,

@@ -3,7 +3,7 @@ import { ItemType } from '@/util/entityTypes';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import Checkbox from 'expo-checkbox';
 import { SQLiteDatabase } from 'expo-sqlite';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface PropTypes {
@@ -26,7 +26,11 @@ const ListItemCard = ({
 
     const toggleItemCompleted = useListItemStore((state) => state.toggleItemCompleted)
 
-    const [isChecked, setIsChecked] = useState(item.completed ? true : false);
+    const [isChecked, setIsChecked] = useState<Boolean>(false);
+
+    useEffect(() => {
+        setIsChecked(item.completed ? true : false)
+    }, [item])
 
     const setChecked = () => {
         // update local state
@@ -50,7 +54,7 @@ const ListItemCard = ({
             <View style={styles.titles}>
                 <Checkbox
                     style={styles.checkbox}
-                    value={isChecked}
+                    value={isChecked ? true : false}
                     color={isChecked ? "#3d3737ff" : "#E9DCC9"}
                     onValueChange={setChecked}
                 />
@@ -65,13 +69,13 @@ const ListItemCard = ({
                     style={styles.btn}
                     onPress={handleEditItem}
                 >
-                    <Feather name="edit" size={22} color="#c1dde0ff" />
+                    <Feather name="edit" size={22} color={isChecked ? "#3d3737ff" : "#c1dde0ff"} />
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.btn}
                     onPress={handleDeleteItem}
                 >
-                    <Ionicons name="trash" size={22} color="#f86363ff" />
+                    <Ionicons name="trash" size={22} color={isChecked ? "#3d3737ff" : "#8C1F28"} />
                 </TouchableOpacity>
             </View>
         </View>
@@ -95,7 +99,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     cardTitle: {
-        color: "#E9DCC9",
+        color: "#cbc5c5ff",
         fontSize: 18,
         fontWeight: "bold",
         marginLeft: 4

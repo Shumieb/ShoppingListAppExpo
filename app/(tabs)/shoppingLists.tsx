@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, View } from 'react-native'
+import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import ListCard from '@/components/ListCard'
@@ -23,6 +23,7 @@ const ShoppingLists = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false)
   const [inputError, setInputError] = useState<boolean>(false)
   const [inputErrorMsg, setInputErrorMsg] = useState<string>("")
+  const [loading, setLoading] = useState<boolean>(true)
 
   const myDb = useSQLiteContext();
 
@@ -33,7 +34,7 @@ const ShoppingLists = () => {
       initializeShoppingLists(myDb || undefined);
     }
     setup();
-
+    if (loading) setLoading(false);
   }, []);
 
   // whenever the shopping lists change, update the lists to display
@@ -70,6 +71,15 @@ const ShoppingLists = () => {
       setInputErrorMsg("")
       setInputError(false)
     }
+  }
+
+  // Show loading state while fetching data
+  if (loading) {
+    return (
+      <SafeAreaView style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <ActivityIndicator size="large" color="#E9DCC9" />
+      </SafeAreaView>
+    )
   }
 
   return (

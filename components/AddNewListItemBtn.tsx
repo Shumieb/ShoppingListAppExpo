@@ -15,7 +15,7 @@ const AddNewListItemBtn = ({
       style={styles.btn}
       onPress={() => setModalVisible(true)}
     >
-      <AntDesign name="pluscircle" size={20} color="#0A3A40" />
+      <AntDesign name="pluscircle" size={20} color="#cbc5c5ff" />
       <Text style={styles.btnText}>{buttonText}</Text>
     </TouchableOpacity>
   )
@@ -28,17 +28,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#c04621ff",
+    backgroundColor: "#B33F00",
     paddingHorizontal: 2,
     paddingVertical: 6,
     borderRadius: 4,
     fontWeight: "bold",
     width: "50%",
-    borderColor: "#c04621ff",
+    borderColor: "#B33F00",
     borderWidth: 2
   },
   btnText: {
-    color: "#0A3A40",
+    color: "#cbc5c5ff",
     fontSize: 16,
     fontWeight: "bold",
     paddingLeft: 8,

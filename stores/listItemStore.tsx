@@ -79,10 +79,11 @@ const useListItemStore = create(
 
       // Function to toggle the completion status of an item
       toggleItemCompleted: async (db: SQLiteDatabase, id: number, item: ItemType) => {
-        await updateItem(db, { ...item, completed: !item.completed });
+        let completedBool = item.completed ? true : false
+        await updateItem(db, { ...item, completed: !completedBool });
         set((state) => ({
           items: state.items.map((item: ItemType) =>
-            item.id === id ? { ...item, completed: !item.completed } : item
+            item.id === id ? { ...item, completed: !completedBool } : item
           )
         }))
       },
@@ -94,7 +95,6 @@ const useListItemStore = create(
           set((state) => ({
             items: state.items.filter((item: ItemType) => item.listId !== id)
           }))
-          console.log("cleared list")
         } catch (error) {
           console.error('Failed to remove all items from list:', error);
         }

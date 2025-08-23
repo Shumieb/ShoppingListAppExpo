@@ -14,7 +14,7 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import { router, useLocalSearchParams } from 'expo-router'
 import { useSQLiteContext } from 'expo-sqlite'
 import { useEffect, useState } from 'react'
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const ShoppingListDetails = () => {
@@ -34,6 +34,7 @@ const ShoppingListDetails = () => {
   const [itemCount, setItemCount] = useState<number>(0)
   const [inputError, setInputError] = useState<boolean>(false)
   const [inputErrorMsg, setInputErrorMsg] = useState<string>("")
+  const [loading, setLoading] = useState<boolean>(true)
 
   const getShoppingListById = useShoppingListStore((state) => state.getShoppingListById)
 
@@ -64,7 +65,7 @@ const ShoppingListDetails = () => {
     }
 
     fetchItems();
-
+    if (loading) setLoading(false);
   }, [id])
 
   // function to add a new item
@@ -156,6 +157,15 @@ const ShoppingListDetails = () => {
   if (id == null) {
     return (
       <NoSelectedListComponent />
+    )
+  }
+
+  // Show loading state while fetching data
+  if (loading) {
+    return (
+      <SafeAreaView style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <ActivityIndicator size="large" color="#E9DCC9" />
+      </SafeAreaView>
     )
   }
 
