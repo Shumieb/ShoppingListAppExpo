@@ -17,6 +17,7 @@ export default function RootLayout() {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         listId INTEGER NOT NULL,
         name TEXT NOT NULL,
+        completed BOOLEAN NOT NULL DEFAULT 0,
         FOREIGN KEY (listId) REFERENCES lists(id) ON DELETE CASCADE
       );
     `)

@@ -26,6 +26,7 @@ const ShoppingLists = () => {
 
   const myDb = useSQLiteContext();
 
+  // on first load, initialize the shopping lists from the database
   useEffect(() => {
     if (shoppingLists.length > 0) return;
     async function setup() {
@@ -35,17 +36,17 @@ const ShoppingLists = () => {
 
   }, []);
 
+  // whenever the shopping lists change, update the lists to display
   useEffect(() => {
     function fetchShoppingLists() {
       let list = getAllShoppingLists();
       if (!list || list.length === 0) return;
       setListsToDisplay(list);
-      console.log("running fetch")
-      console.log(list.length)
     }
     fetchShoppingLists();
   }, [shoppingLists]);
 
+  // function to add a new shopping list
   const addName = async (newName: string) => {
     if (newName.trim().length <= 0) {
       setInputErrorMsg("Please enter an Shopping List name")
@@ -63,6 +64,7 @@ const ShoppingLists = () => {
     }
   }
 
+  // function to remove error message
   const removeErrorMsg = () => {
     if (inputError) {
       setInputErrorMsg("")

@@ -1,5 +1,3 @@
-import useListItemStore from '@/stores/listItemStore';
-import useShoppingListStore from '@/stores/shoppingListsStore';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
 import { useEffect, useState } from 'react';
@@ -10,46 +8,29 @@ interface PropTypes {
     modalVisible: boolean
     editName: (name: string) => void
     setModalVisible: (visible: boolean) => void
-    currentNameId?: string
-    modalType: "list" | "item"
     modalTitle: string
     inputError: boolean
     inputErrorMsg: string
-    removeErrorMsg: () => void
+    removeErrorMsg: () => void,
+    title: string | undefined
 }
 
 const EditNameModal = ({
     modalVisible,
     editName,
     setModalVisible,
-    currentNameId = "",
-    modalType,
     modalTitle,
     inputError,
     inputErrorMsg,
     removeErrorMsg,
+    title
 }: PropTypes) => {
 
-    const getShoppingListById = useShoppingListStore((state) => state.getShoppingListById)
-
-    const getItemById = useListItemStore((state) => state.getItemById)
-
-    const [newName, setNewName] = useState("");
+    const [newName, setNewName] = useState<string>("");
 
     useEffect(() => {
-        let title;
-        if (currentNameId) {
-            if (modalType === "item") {
-                title = getItemById(currentNameId);
-            } else if (modalType === "list") {
-                title = getShoppingListById(currentNameId);
-            }
-
-            if (title?.name) {
-                setNewName(title?.name);
-            }
-        }
-    }, [currentNameId, modalType]);
+        setNewName(title || "")
+    }, [title]);
 
     return (
         <Modal
@@ -83,7 +64,11 @@ const EditNameModal = ({
                     <View style={styles.btnContainer}>
                         <TouchableOpacity
                             style={[styles.btn, styles.btnSubmit]}
-                            onPress={() => editName(newName)}
+                            onPress={() => {
+                                editName(newName)
+                                setNewName("")
+                                setModalVisible(!modalVisible)
+                            }}
                         >
                             <Feather name="edit" size={18} color="#E9DCC9" />
                             <Text style={styles.textStyle}>Edit</Text>

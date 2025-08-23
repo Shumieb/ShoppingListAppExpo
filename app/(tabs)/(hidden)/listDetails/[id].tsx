@@ -44,7 +44,7 @@ const ListDetails = () => {
     useEffect(() => {
         if (id != null) {
             // set the page title
-            let newTitle = getShoppingListById(id);
+            let newTitle = getShoppingListById(Number(id));
             if (newTitle) {
                 setCurrentList(newTitle)
                 setTitle(newTitle?.name)
@@ -57,7 +57,7 @@ const ListDetails = () => {
     }, [id])
 
     useEffect(() => {
-        let newTitle = getShoppingListById(id);
+        let newTitle = getShoppingListById(Number(id));
         if (newTitle) {
             setCurrentList(newTitle)
             setTitle(newTitle?.name)
@@ -84,12 +84,12 @@ const ListDetails = () => {
             return
         }
         let updatedShoppingList = {
-            id: id as string,
+            id: id,
             name: newName,
         }
-        updateShoppingList(updatedShoppingList);
+        updateShoppingList(myDb, updatedShoppingList);
         setTitle(newName);
-        setEditModalVisible(!editModalVisible);
+        setCurrentList({ ...list, name: newName } as ListType)
         removeErrorMsg()
     }
 
@@ -156,8 +156,7 @@ const ListDetails = () => {
                 modalVisible={editModalVisible}
                 editName={editListName}
                 setModalVisible={setEditModalVisible}
-                currentNameId={id as string}
-                modalType="list"
+                title={title}
                 modalTitle="Edit List Name"
                 inputError={inputError}
                 inputErrorMsg={inputErrorMsg}

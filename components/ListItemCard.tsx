@@ -1,10 +1,10 @@
-import useListItemStore from '@/stores/listItemStore'
-import Feather from '@expo/vector-icons/Feather'
-import Ionicons from '@expo/vector-icons/Ionicons'
-import Checkbox from 'expo-checkbox'
-import { useState } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { ItemType } from '@/util/entityTypes'
+import useListItemStore from '@/stores/listItemStore';
+import { ItemType } from '@/util/entityTypes';
+import Feather from '@expo/vector-icons/Feather';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import Checkbox from 'expo-checkbox';
+import { useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface PropTypes {
     item: ItemType;

@@ -9,22 +9,19 @@ import ListItemCard from '@/components/ListItemCard'
 import NoSelectedListComponent from '@/components/NoSelectedListComponent'
 import useListItemStore from '@/stores/listItemStore'
 import useShoppingListStore from '@/stores/shoppingListsStore'
+import { ItemType } from '@/util/entityTypes'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { router, useLocalSearchParams } from 'expo-router'
+import { useSQLiteContext } from 'expo-sqlite'
 import { useEffect, useState } from 'react'
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-interface ItemType {
-  id: string,
-  name: string,
-  listId: string,
-  completed: boolean
-};
-
 const ShoppingListDetails = () => {
 
   const { id } = useLocalSearchParams()
+
+  const myDb = useSQLiteContext();
 
   const [title, setTitle] = useState<string | undefined>("Default")
   const [displayList, setDisplayList] = useState<ItemType[]>([])
@@ -39,39 +36,38 @@ const ShoppingListDetails = () => {
   const [inputErrorMsg, setInputErrorMsg] = useState<string>("")
 
   const getShoppingListById = useShoppingListStore((state) => state.getShoppingListById)
-  const getItemCountByListId = useListItemStore((state) => state.getItemCountByListId)
 
-  const getItemsByListId = useListItemStore((state) => state.getItemsByListId)
-  const items = useListItemStore((state) => state.items)
+  const getItemsByShoppingListId = useListItemStore((state) => state.getItemsByShoppingListId)
   const addNewItem = useListItemStore((state) => state.addNewItem)
-  const updateItem = useListItemStore((state) => state.updateItem)
-  const removeItem = useListItemStore((state) => state.removeItem)
+  const updateListItem = useListItemStore((state) => state.updateListItem)
+  const removeListItem = useListItemStore((state) => state.removeListItem)
   const deleteAllItemsFromList = useListItemStore((state) => state.deleteAllItemsFromList)
 
   useEffect(() => {
-    if (id != null) {
-      // set the page title
-      let newTitle = getShoppingListById(id);
-      if (newTitle?.name) {
-        setTitle(newTitle?.name);
+    async function fetchItems() {
+      if (id != null) {
+        // set the page title
+        let newTitle = await getShoppingListById(Number(id));
+        if (newTitle?.name) {
+          setTitle(newTitle?.name);
+        }
+        // set the list to display
+        let list: ItemType[] = await getItemsByShoppingListId(myDb, Number(id));
+        if (list) {
+          setDisplayList(list);
+          setItemCount(list.length);
+        } else {
+          setDisplayList([]);
+          setItemCount(0);
+        }
       }
-
-      // set the list to display
-      let list: ItemType[] = getItemsByListId(id);
-      setDisplayList(list);
     }
+
+    fetchItems();
+
   }, [id])
 
-  useEffect(() => {
-    // set the list to display
-    let list: ItemType[] = getItemsByListId(id);
-    setDisplayList(list);
-
-    // set the item count
-    let count = getItemCountByListId(id);
-    if (count != null) setItemCount(count);
-  }, [items])
-
+  // function to add a new item
   const addItem = (newName: string) => {
     if (newName.trim().length <= 0) {
       setInputErrorMsg("Please enter an item name")
@@ -85,12 +81,17 @@ const ShoppingListDetails = () => {
       listId: id as string,
       completed: false
     }
-
-    addNewItem(newItem)
+    // add the new item to the database
+    addNewItem(myDb, newItem)
+    // update the local state
+    setDisplayList([...displayList, newItem])
+    setItemCount(prev => prev + 1)
+    // close modal
     setAddModalVisible(false)
+    //reset error state
     removeErrorMsg()
   }
-
+  // function to edit an item name
   const editItemName = (editedName: string) => {
     if (editedName.trim().length <= 0) {
       setInputErrorMsg("Please enter an item name")
@@ -105,22 +106,38 @@ const ShoppingListDetails = () => {
         listId: itemToEdit.listId,
         completed: itemToEdit.completed
       }
-      updateItem(updatedItem)
+      // update the item in the database
+      updateListItem(myDb, updatedItem)
+      // update the local state
+      setDisplayList(displayList.map(item => item.id === itemToEdit.id ? updatedItem : item))
+      setItemToEdit(null)
+      // close modal
       setEditModalVisible(false)
     }
     removeErrorMsg()
   }
-
+  // function to delete an item
   const deleteItem = (id: string) => {
-    removeItem(id)
+    // delete the item from the database
+    removeListItem(myDb, id)
+    // update the local state
+    setDisplayList(displayList.filter(item => item.id !== id))
+    setItemCount(prev => prev - 1)
+    setItemToDelete(null)
+    // close modal
     setDeleteModalVisible(false)
   }
-
+  // function to clear all items from the list
   const clearList = (id: string) => {
-    deleteAllItemsFromList(id);
+    // delete all items from the database
+    deleteAllItemsFromList(myDb, id);
+    // update the local state
+    setDisplayList([])
+    setItemCount(0)
+    // close modal
     setClearListModalVisible(false)
   }
-
+  // function to remove error message
   const removeErrorMsg = () => {
     if (inputError) {
       setInputErrorMsg("")
@@ -176,8 +193,10 @@ const ShoppingListDetails = () => {
               buttonText='New Item'
             />
             {
+
               itemCount <= 0 &&
               (
+
                 <View style={styles.centerContainer}>
                   <EmptyListComponent
                     ListType={`Items in ${title}`}
@@ -219,12 +238,11 @@ const ShoppingListDetails = () => {
         modalVisible={editModalVisible}
         editName={editItemName}
         setModalVisible={setEditModalVisible}
-        currentNameId={itemToEdit?.id}
-        modalType="item"
         modalTitle="Edit Item"
         inputError={inputError}
         inputErrorMsg={inputErrorMsg}
         removeErrorMsg={removeErrorMsg}
+        title={itemToEdit?.name || ""}
       />
 
       {/* Delete Item modal */}
