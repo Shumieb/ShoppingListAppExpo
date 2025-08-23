@@ -1,11 +1,11 @@
 export interface ItemType {
-    id: string,
+    id: number,
     name: string,
-    listId: string,
+    listId: number,
     completed: boolean
 };
 
 export interface ListType {
-    id: string,
+    id: number,
     name: string,
 }

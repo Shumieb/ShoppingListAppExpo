@@ -4,6 +4,7 @@ import FeedBackModal from '@/components/FeedBackTextModal';
 import NoSelectedListComponent from '@/components/NoSelectedListComponent';
 import useListItemStore from '@/stores/listItemStore';
 import useShoppingListStore from '@/stores/shoppingListsStore';
+import { ListType } from '@/util/entityTypes';
 import Feather from '@expo/vector-icons/Feather';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -11,11 +12,6 @@ import { useSQLiteContext } from 'expo-sqlite';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-interface ListType {
-    id: string,
-    name: string,
-}
 
 const ListDetails = () => {
 
@@ -29,7 +25,7 @@ const ListDetails = () => {
     const removeShoppingList = useShoppingListStore((state) => state.removeShoppingList)
     const shoppingLists = useShoppingListStore((state) => state.shoppingLists)
 
-    const getItemCountByListId = useListItemStore((state) => state.getItemCountByListId)
+    const getItemsByShoppingListId = useListItemStore((state) => state.getItemsByShoppingListId)
     const items = useListItemStore((state) => state.items)
 
     const [title, setTitle] = useState<string | undefined>("Default")
@@ -42,6 +38,12 @@ const ListDetails = () => {
     const [deleteModalVisible, setDeleteModalVisible] = useState(false)
 
     useEffect(() => {
+        async function SetCount() {
+            let listItems = await getItemsByShoppingListId(myDb, Number(id));
+            if (listItems) {
+                setItemCount(listItems.length)
+            }
+        }
         if (id != null) {
             // set the page title
             let newTitle = getShoppingListById(Number(id));
@@ -49,12 +51,10 @@ const ListDetails = () => {
                 setCurrentList(newTitle)
                 setTitle(newTitle?.name)
             }
-
             // set the item count
-            let count = getItemCountByListId(id);
-            count != null && setItemCount(count);
+            SetCount();
         }
-    }, [id])
+    }, [])
 
     useEffect(() => {
         let newTitle = getShoppingListById(Number(id));
@@ -64,19 +64,11 @@ const ListDetails = () => {
         }
     }, [shoppingLists])
 
-    useEffect(() => {
-        if (id != null) {
-            // set the item count
-            let count = getItemCountByListId(id);
-            if (count != null) setItemCount(count);
-        }
-    }, [items])
-
     const showShoppingListDetails = () => {
         const validId = Array.isArray(id) ? id[0] : id;
         router.replace({ pathname: "/details/[id]", params: { id: validId } })
     }
-
+    // function to edit the list name
     const editListName = (newName: string) => {
         if (newName.trim().length <= 0) {
             setInputErrorMsg("Please enter an Shopping List name")
@@ -84,7 +76,7 @@ const ListDetails = () => {
             return
         }
         let updatedShoppingList = {
-            id: id,
+            id: Number(id),
             name: newName,
         }
         updateShoppingList(myDb, updatedShoppingList);
@@ -92,17 +84,17 @@ const ListDetails = () => {
         setCurrentList({ ...list, name: newName } as ListType)
         removeErrorMsg()
     }
-
+    // function to delete the list
     const deleteList = () => {
         if (id == null) return;
         if (itemCount <= 0 && myDb != null) {
-            removeShoppingList(myDb, id as string);
+            removeShoppingList(myDb, Number(id));
             router.replace("/shoppingLists");
         } else {
             setUnsuccessfulDelete(!unsuccessfulDelete);
         }
     }
-
+    // function to remove error message
     const removeErrorMsg = () => {
         if (inputError) {
             setInputErrorMsg("")

@@ -77,7 +77,7 @@ const ShoppingLists = () => {
       <FlatList
         data={listsToDisplay}
         renderItem={({ item }) => (<ListCard item={item} />)}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.id.toString()}
         style={styles.listContainer}
         ListHeaderComponent={
           <View style={styles.btnContainer}>

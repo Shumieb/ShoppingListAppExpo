@@ -61,7 +61,7 @@ export const addItem = async (db, newItem) => {
     try {
         const result = await db.runAsync(
             'INSERT INTO items (name, listId, completed) VALUES (?, ?, ?)',
-            [newItem.name, Number(newItem.listId), newItem.completed ? 1 : 0]
+            [newItem.name, newItem.listId, newItem.completed ? 1 : 0]
         );
         return result;
     } catch (error) {
@@ -73,7 +73,7 @@ export const updateItem = async (db, updatedItem) => {
     try {
         await db.runAsync(
             'UPDATE items SET name = ?, completed = ? WHERE id = ?',
-            [updatedItem.name, updatedItem.completed ? 1 : 0, Number(updatedItem.id)]
+            [updatedItem.name, updatedItem.completed ? 1 : 0, updatedItem.id]
         );
     } catch (error) {
         console.error("Failed to update item", error);
