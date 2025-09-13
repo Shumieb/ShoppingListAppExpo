@@ -71,7 +71,7 @@ const AddNameModal = ({
                             style={[styles.btn, styles.btnClose]}
                             onPress={() => setModalVisible(!modalVisible)}
                         >
-                            <Feather name="plus-circle" size={16} color="#E9DCC9" />
+                            <Feather name="x-circle" size={16} color="#E9DCC9" />
                             <Text style={styles.textStyle}>Cancel</Text>
                         </TouchableOpacity>
                     </View>
