@@ -1,4 +1,4 @@
-import AntDesign from '@expo/vector-icons/AntDesign';
+import Feather from '@expo/vector-icons/Feather';
 import { useState } from 'react';
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import FormTextInput from './FormTextInput';
@@ -64,14 +64,14 @@ const AddNameModal = ({
                                 setNewName("")
                             }}
                         >
-                            <AntDesign name="pluscircle" size={16} color="#E9DCC9" />
+                            <Feather name="plus-circle" size={16} color="#E9DCC9" />
                             <Text style={styles.textStyle}>Add</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={[styles.btn, styles.btnClose]}
                             onPress={() => setModalVisible(!modalVisible)}
                         >
-                            <AntDesign name="closecircle" size={16} color="#E9DCC9" />
+                            <Feather name="plus-circle" size={16} color="#E9DCC9" />
                             <Text style={styles.textStyle}>Cancel</Text>
                         </TouchableOpacity>
                     </View>

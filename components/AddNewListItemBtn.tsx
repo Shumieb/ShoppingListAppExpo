@@ -1,4 +1,4 @@
-import AntDesign from '@expo/vector-icons/AntDesign';
+import Feather from '@expo/vector-icons/Feather';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 interface PropTypes {
@@ -15,7 +15,7 @@ const AddNewListItemBtn = ({
       style={styles.btn}
       onPress={() => setModalVisible(true)}
     >
-      <AntDesign name="pluscircle" size={20} color="#cbc5c5ff" />
+      <Feather name="plus-circle" size={20} color="#cbc5c5ff" />
       <Text style={styles.btnText}>{buttonText}</Text>
     </TouchableOpacity>
   )

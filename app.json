@@ -16,7 +16,8 @@
         "foregroundImage": "./assets/images/Shopping-List.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.shumie_258.shoppingListApp"
     },
     "web": {
       "bundler": "metro",
@@ -38,6 +39,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "0c8cfe66-c781-4219-941d-ae57e801f39c"
+      }
     }
   }
 }

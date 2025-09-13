@@ -1,4 +1,4 @@
-import AntDesign from '@expo/vector-icons/AntDesign';
+import Feather from '@expo/vector-icons/Feather';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -47,7 +47,7 @@ const ClearListModal = ({
                             style={[styles.btn, styles.btnEdit]}
                             onPress={() => listToDeleteId && clearList(listToDeleteId)}
                         >
-                            <AntDesign name="checkcircle" size={18} color="#E9DCC9" />
+                            <Feather name="check-circle" size={18} color="#E9DCC9" />
                             <Text style={styles.cardText}>Yes</Text>
                         </TouchableOpacity>
                         <TouchableOpacity

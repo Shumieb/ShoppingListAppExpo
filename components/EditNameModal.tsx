@@ -1,4 +1,3 @@
-import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
 import { useEffect, useState } from 'react';
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -77,7 +76,7 @@ const EditNameModal = ({
                             style={[styles.btn, styles.btnClose]}
                             onPress={() => setModalVisible(!modalVisible)}
                         >
-                            <AntDesign name="closecircle" size={18} color="#E9DCC9" />
+                            <Feather name="x-circle" size={18} color="#E9DCC9" />
                             <Text style={styles.textStyle}>Cancel</Text>
                         </TouchableOpacity>
                     </View>
