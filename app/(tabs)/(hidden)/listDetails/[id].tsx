@@ -25,6 +25,7 @@ const ListDetails = () => {
     const removeShoppingList = useShoppingListStore((state) => state.removeShoppingList)
     const shoppingLists = useShoppingListStore((state) => state.shoppingLists)
 
+    const items = useListItemStore((state) => state.items);
     const getItemsByShoppingListId = useListItemStore((state) => state.getItemsByShoppingListId)
 
     const [title, setTitle] = useState<string | undefined>("Default")
@@ -62,6 +63,18 @@ const ListDetails = () => {
             setTitle(newTitle?.name)
         }
     }, [shoppingLists])
+
+    useEffect(() => {
+        async function SetCount() {
+            let listItems = await getItemsByShoppingListId(myDb, Number(id));
+            if (listItems) {
+                setItemCount(listItems.length)
+            }
+        }
+        // set the item count
+        SetCount();
+
+    }, [items])
 
     const showShoppingListDetails = () => {
         const validId = Array.isArray(id) ? id[0] : id;
